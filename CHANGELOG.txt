@@ -1,0 +1,15 @@
+1/12/2022
+--------------------------------------------------------------------------------
+- Plasmagunner, Demontechgunner, Lancegunner, and QuadCommander now have proper
+spawn, roam, melee and pain states.
+- Diabolist has had their spawn frames tweaked.
+- Diabolist flames now show their proper graphics.
+- Plasmagunner damage slightly buffed,
+- Demontechgunner damage slightly buffed.
+- Added unique reload mechanics to the LanceGunner (7 shots),
+- Added ammunition drops to QuadCommander (12ga) and LanceGunner (.355).
+- Moved various in-progress actors to their own decorate files
+(see /Decorate/Monsters/ for a list of categories).
+- Began the process of changing internal actor names to suit 'genres' of enemy, 
+(see /Decorate/Monsters/ for a list of categories).
+--------------------------------------------------------------------------------

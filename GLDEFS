@@ -1,0 +1,26 @@
+//===========================
+// Include Seperate GL Lumps
+//===========================
+
+#INCLUDE "MonsterLights.gl"
+#INCLUDE "MonsterProjectileLights.gl"
+#INCLUDE "ItemLights.gl"
+#INCLUDE "SFXLights.gl"
+
+//===============
+// Glowing Flats
+//===============
+/*
+Glow
+{
+Flats
+{
+	NUKAGE1
+	NUKAGE2
+	NUKAGE3
+	LAVA1
+	LAVA2
+	LAVA3
+	LAVA4
+	}
+}*/

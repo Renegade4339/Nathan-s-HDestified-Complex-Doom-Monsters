@@ -1,0 +1,383 @@
+//=================
+// Hitscan Weapons
+//=================
+
+DECAL ChainsawMarkLower1
+{
+Pic SAWMARK
+Shade "00 00 00"
+X-scale 0.2
+Y-scale 0.4
+RandomFlipx
+RandomFlipy
+}
+
+DECAL ChainsawMark
+{
+Pic SAWMARK
+FullBright
+Shade "FF C8 00"
+X-scale 0.1
+Y-scale 0.35
+RandomFlipx
+RandomFlipy
+LowerDecal ChainsawMarkLower1
+Animator GoAway
+}
+
+DECAL BulletChipLower1
+{
+Pic SCORCH1
+Shade "00 00 00"
+X-scale 0.07
+Y-scale 0.07
+RandomFlipx
+RandomFlipy
+}
+
+DECAL BulletChip
+{
+Pic PUFFA0
+Add 1.0
+FullBright
+Animator GoAway
+X-scale 0.45
+Y-scale 0.45
+LowerDecal BulletChipLower1
+}
+
+//=================
+// Rocket Launcher
+//=================
+
+DECAL RocketScorch
+{
+Pic RKDEA0
+Add 1.0
+X-scale 0.12
+Y-scale 0.12
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal Scorch
+}
+
+//==============
+// Plasma Rifle
+//==============
+
+DECAL PlasmaLightning1
+{
+Pic PLSDA0
+Add 1.0
+X-Scale 0.08
+Y-Scale 0.08
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECAL PlasmaLightning2
+{
+Pic PLSDB0
+Add 1.0
+X-Scale 0.08
+Y-Scale 0.08
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECALGROUP HeatScorch
+{
+PlasmaLightning1 1
+PlasmaLightning2 1
+}
+
+//==================
+// Demon Tech Rifle
+//==================
+
+DECAL DTRScorch
+{
+Pic DTDEA0
+Add 1.0
+X-Scale 0.06
+Y-Scale 0.06
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+//=========
+// BFG9500
+//=========
+
+DECAL BFG9500Lightning
+{
+Pic BFDEA0
+Add 1.0
+X-Scale 0.25
+Y-Scale 0.25
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway2
+LowerDecal BFGScorch
+}
+
+//========
+// BFG15K
+//========
+
+DECAL BFG15KLightning1
+{
+Pic BFGLITE1
+Shade "00 ff 00"
+FullBright
+X-Scale 0.5
+Y-Scale 0.5
+RandomFlipx
+Animator GoAway2
+LowerDecal Scorch
+}
+
+DECAL BFG15KLightning2
+{
+Pic BFGLITE2
+Shade "00 ff 00"
+FullBright
+X-Scale 0.5
+Y-Scale 0.5
+RandomFlipy
+Animator GoAway2
+LowerDecal Scorch
+}
+
+DECALGROUP BFG15KLightning
+{
+BFG15KLightning1	1
+BFG15KLightning2	1
+}
+
+//===============
+// Monster Stuff
+//===============
+
+DECAL GreenRocketScorch
+{
+Pic RKDGA0
+Add 1.0
+X-scale 0.12
+Y-scale 0.12
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal Scorch
+}
+
+DECAL Heat2Scorch1
+{
+Pic PLASMA1
+Shade "ff 00 00"
+X-scale 0.3
+Y-scale 0.3
+RandomFlipx
+RandomFlipy
+FullBright
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECAL Heat2Scorch2
+{
+Pic PLASMA2
+Shade "ff 00 00"
+X-scale 0.3
+Y-scale 0.3
+RandomFlipx
+RandomFlipy
+FullBright
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECALGROUP Heat2Scorch
+{
+Heat2Scorch1	1
+Heat2Scorch2	1
+}
+
+DECAL Heat3Scorch1
+{
+Pic PLASMA1
+Shade "00 ff 00"
+X-scale 0.3
+Y-scale 0.3
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECAL Heat3Scorch2
+{
+Pic PLASMA2
+Shade "00 ff 00"
+X-scale 0.3
+Y-scale 0.3
+RandomFlipx
+RandomFlipy
+Animator GoAway
+LowerDecal DoomImpScorch
+}
+
+DECALGROUP Heat3Scorch
+{
+Heat3Scorch1	1
+Heat3Scorch2	1
+}
+
+DECAL BFG9500LightningRed
+{
+Pic BRDEA0
+Add 1.0
+X-Scale 0.25
+Y-Scale 0.25
+FullBright
+RandomFlipx
+RandomFlipy
+Animator GoAway2
+LowerDecal BFGScorch
+}
+
+DECAL BFG10KLightning1
+{
+Pic BFGLITE1
+Shade "ff 00 00"
+FullBright
+RandomFlipx
+Animator GoAway2
+LowerDecal BFGScorch
+}
+
+DECAL BFG10KLightning2
+{
+Pic BFGLITE2
+Shade "ff 00 00"
+FullBright
+RandomFlipy
+Animator GoAway2
+LowerDecal BFGScorch
+}
+
+DECALGROUP BFG10KLightning
+{
+BFG10KLightning1	1
+BFG10KLightning2	1
+}
+
+DECAL Cardinal15KLightning1
+{
+Pic BFGLITE1
+Shade "ff 00 00"
+FullBright
+X-Scale 0.5
+Y-Scale 0.5
+RandomFlipx
+Animator GoAway2
+LowerDecal Scorch
+}
+
+DECAL Cardinal15KLightning2
+{
+Pic BFGLITE2
+Shade "ff 00 00"
+FullBright
+X-Scale 0.5
+Y-Scale 0.5
+RandomFlipy
+Animator GoAway2
+LowerDecal Scorch
+}
+
+DECALGROUP Cardinal15KLightning
+{
+Cardinal15KLightning1	1
+Cardinal15KLightning2	1
+}
+
+GENERATOR NewRocket RocketScorch
+GENERATOR BasePlasmaBall HeatScorch
+GENERATOR BFG9500Ball BFG9500Lightning
+GENERATOR 10KProjectile BFG15KLightning
+
+GENERATOR ZombiePlasmaBall HeatScorch
+GENERATOR LanceGunner BulletChip
+GENERATOR ZombieRocket RocketScorch
+GENERATOR SuperShotgunSergeant BulletChip
+GENERATOR QuadCommander BulletChip
+GENERATOR AssaultRifleZombie BulletChip
+GENERATOR Chaingunner BulletChip
+GENERATOR Minigunner BulletChip
+GENERATOR NightBall DoomImpScorch
+GENERATOR SoulBall DoomImpScorch
+GENERATOR RictusBall DoomImpScorch
+GENERATOR ABBall DoomImpScorch
+GENERATOR WatcherBall DoomImpScorch
+GENERATOR HadesBall DoomImpScorch
+GENERATOR CacoMComet Scorch
+GENERATOR SKBall BaronScorch
+GENERATOR HectebusBall Scorch
+GENERATOR DaedabusBall Scorch
+GENERATOR BehemothComet Scorch
+GENERATOR BehemothSeekingComet Scorch
+GENERATOR DualaPlasma HeatScorch
+GENERATOR FusionShot DoomImpScorch
+GENERATOR FusioniteRailPuff RailScorch
+GENERATOR BabyDemolisher BulletChip
+GENERATOR BabyDemo15K BFG15KLightning
+GENERATOR BabySent10K BFG10KLightning
+GENERATOR GuardianTracer RevenantScorch
+GENERATOR CadaverRocket GreenRocketScorch
+GENERATOR HellfireRocket RocketScorch
+GENERATOR PBall BaronScorch
+GENERATOR PyroComet Scorch
+GENERATOR CyberNoble BulletChip
+GENERATOR CyNobleRocket RocketScorch
+GENERATOR DukeFireSpawner Scorch
+GENERATOR HDComet Scorch
+GENERATOR BBall BaronScorch
+GENERATOR BBall2 Scorch
+GENERATOR Comet Scorch
+GENERATOR BruiserMissile RocketScorch
+GENERATOR BruiserRailPuff RailScorch
+GENERATOR Cybruiser15K Cardinal15KLightning
+GENERATOR Demolisher BulletChip
+GENERATOR SpiderBFG9500Ball BFG9500Lightning
+GENERATOR Spider15K BFG15KLightning
+GENERATOR DarkDemolisher BulletChip
+GENERATOR DarkDemo10K BFG15KLightning
+GENERATOR SentientBFG9500Ball BFG9500LightningRed
+GENERATOR Sentient10K BFG10KLightning
+GENERATOR SentientDTBFG10KBall BFG9500LightningRed
+GENERATOR CyberLordRocket RocketScorch
+GENERATOR CyberLordHomer RocketScorch
+GENERATOR DarkCyberRocket GreenRocketScorch
+GENERATOR DarkCyberHomer GreenRocketScorch
+GENERATOR DarkCyberFireSpawner Scorch
+GENERATOR DarkCyberRail GreenRocketScorch
+GENERATOR DarkCyber15K BFG15KLightning
+GENERATOR CardinalRocket RocketScorch
+GENERATOR CardinalHomingRocket RocketScorch
+GENERATOR CardinalRail RocketScorch
+GENERATOR Cardinal10K BFG10KLightning
+GENERATOR CardinalDTBFG10KBall BFG9500LightningRed

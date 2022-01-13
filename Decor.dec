@@ -1,0 +1,52 @@
+// These probably need to be redone too. 
+
+
+ACTOR PlasmaGunnerCorpse replaces DeadZombieMan
+{
+States
+{
+Spawn:
+ZMAY L -1
+Stop
+}
+}
+
+ACTOR ShotgunZombieCorpse replaces DeadShotgunGuy
+{
+States
+{
+Spawn:
+ZSP1 L -1
+Stop
+}
+}
+
+ACTOR ImpCorpse replaces DeadDoomImp
+{
+States
+{
+Spawn:
+SIMP M -1
+Stop
+}
+}
+
+ACTOR BullFiendCorpse replaces DeadDemon
+{
+States
+{
+Spawn:
+SAR2 N -1
+Stop
+}
+}
+
+ACTOR CacodemonCorpse replaces DeadCacodemon
+{
+States
+{
+Spawn:
+CALI S -1
+Stop
+}
+}

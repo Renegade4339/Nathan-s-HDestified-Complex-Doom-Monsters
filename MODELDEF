@@ -1,0 +1,133 @@
+//=========
+// Tracers
+//=========
+
+Model Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 4.5 4.5 1.5
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model SGTracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 4.5 4.5 1.5
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model MonsterTracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 4.5 4.5 1.5
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model MonsterTracer2
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 4.5 4.5 1.5
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model MonsterTracer3
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 4.5 4.5 1.5
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model BabySentientExplosiveTracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 2.2 2.2 1.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model BabySent10K
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA3 A 0 0
+}
+
+Model 10KProjectile
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA2 A 0 0
+}
+
+Model DarkDemo10K
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA2 A 0 0
+}
+
+Model Red10KProjectile
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA3 A 0 0
+}
+
+Model SentientExplosiveTracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 2.6 2.6 1.2
+   PITCHFROMMOMENTUM
+   FrameIndex TRAC A 0 0
+}
+
+Model Sentient10K
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA3 A 0 0
+}
+
+Model Cardinal10K
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 10.0 10.0 5.0
+   PITCHFROMMOMENTUM
+   FrameIndex TRA3 A 0 0
+}

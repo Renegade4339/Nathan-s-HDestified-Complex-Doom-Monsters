@@ -1,0 +1,277 @@
+//================
+// Health Pickups
+//================
+
+
+PULSELIGHT LifeEssence1
+{
+Color 0.8 0 0
+OffSet 0 12 0
+Size 5
+SecondarySize 7
+Interval 0.7
+}
+
+OBJECT LifeEssence
+{
+Frame LIFE { Light LifeEssence1 }
+}
+
+PULSELIGHT HealthFlask1
+{
+Color 0.8 0 0
+OffSet 0 0 0
+Size 5
+SecondarySize 7
+Interval 0.7
+}
+
+OBJECT HealthFlask
+{
+Frame PMEDA { Light HealthFlask1 }
+Frame PMEDB { Light HealthFlask1 }
+Frame PMEDC { Light HealthFlask1 }
+Frame PMEDD { Light HealthFlask1 }
+}
+
+PULSELIGHT BossLifeEssence1
+{
+Color 0.8 0 0
+OffSet 0 12 0
+Size 16
+SecondarySize 28
+Interval 0.9
+}
+
+OBJECT BossLifeEssence
+{
+Frame BLIF { Light BossLifeEssence1 }
+}
+
+//===============
+// Armor Pickups
+//===============
+
+PULSELIGHT ArmorBonusMaxLight1
+{
+Color 0 0.8 0
+OffSet 0 12 0
+Size 6
+SecondarySize 8
+Interval 1
+}
+
+OBJECT ArmorBonusMax
+{
+Frame LFSSA { Light ArmorBonusMaxLight1 }
+Frame LFSSB { Light ArmorBonusMaxLight1 }
+Frame LFSSC { Light ArmorBonusMaxLight1 }
+Frame LFSSD { Light ArmorBonusMaxLight1 }
+Frame LFSSE { Light ArmorBonusMaxLight1 }
+Frame LFSSF { Light ArmorBonusMaxLight1 }
+Frame LFSSG { Light ArmorBonusMaxLight1 }
+Frame LFSSH { Light ArmorBonusMaxLight1 }
+Frame LFSSI { Light ArmorBonusMaxLight1 }
+Frame LFSSJ { Light ArmorBonusMaxLight1 }
+Frame LFSSK { Light ArmorBonusMaxLight1 }
+}
+
+PULSELIGHT BossArmorBonusMax1
+{
+Color 0 0.8 0
+OffSet 0 12 0
+Size 16
+SecondarySize 28
+Interval 0.9
+}
+
+OBJECT BossArmorBonusMax
+{
+Frame DASP { Light BossArmorBonusMax1 }
+}
+
+PULSELIGHT ArmorCharge1
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 6
+SecondarySize 8
+Interval 0.7
+}
+
+OBJECT ArmorCharge
+{
+Frame ACRGA { Light ArmorCharge1}
+Frame ACRGB { Light ArmorCharge1}
+}
+
+OBJECT ArmorBooster
+{
+Frame ABSTA { Light ArmorCharge1}
+Frame ABSTB { Light ArmorCharge1}
+}
+
+POINTLIGHT ExtraArmorL1
+{
+Color 0.6 0.6 0.6
+OffSet 0 0 0
+Size 26
+}
+
+POINTLIGHT ExtraArmorL2
+{
+Color 0.6 0.6 0.6
+OffSet 0 0 0
+Size 34
+}
+
+OBJECT ExtraArmor
+{
+Frame ARMEA { Light ExtraArmorL1 }
+Frame ARMEB { Light ExtraArmorL2 }
+}
+
+//============
+// Ammo Cells
+//============
+
+
+//======
+// Keys
+//======
+
+
+//==========
+// Powerups
+//==========
+
+OBJECT HellionRegen
+{
+Frame HRGNA { Light BossLifeEssence1 }
+Frame HRGNB { Light BossLifeEssence1 }
+Frame HRGNC { Light BossLifeEssence1 }
+Frame HRGND { Light BossLifeEssence1 }
+}
+
+POINTLIGHT ModdedBlurSphere1
+{
+Color 0 0 0.8
+OffSet 0 30 0
+Size 52
+}
+
+POINTLIGHT ModdedBlurSphere2
+{
+Color 0.8 0 0
+OffSet 0 30 0
+Size 52
+}
+
+OBJECT ModdedBlurSphere
+{
+Frame PINSA { Light ModdedBlurSphere1 }
+Frame PINSB { Light ModdedBlurSphere1 }
+Frame PINSC { Light ModdedBlurSphere2 }
+Frame PINSD { Light ModdedBlurSphere2 }
+}
+
+PULSELIGHT HasteSphereL1
+{
+Color 1 0.8 0
+OffSet 0 30 0
+Size 12
+SecondarySize 16
+Interval 1
+}
+
+OBJECT HasteSphere
+{
+Frame SINV { Light HasteSphereL1 }
+}
+
+PULSELIGHT ModdedSoulSphere1
+{
+Color 0 0 0.8
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT ModdedSoulSphere
+{
+Frame SOULA { Light ModdedSoulSphere1 }
+Frame SOULB { Light ModdedSoulSphere1 }
+Frame SOULC { Light ModdedSoulSphere1 }
+Frame SOULD { Light ModdedSoulSphere1 }
+}
+
+PULSELIGHT LifeSphere1
+{
+Color 0.2 0.7 1.0
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT LifeSphere
+{
+Frame LISP { Light LifeSphere1 }
+}
+
+PULSELIGHT ModdedMegaSphere1
+{
+Color 0.7 0.7 0.7
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT ModdedMegaSphere
+{
+Frame MEGA { Light ModdedMegaSphere1 }
+}
+
+PULSELIGHT UltraSphere1
+{
+Color 1.0 0 1.0
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT UltraSphere
+{
+Frame ARSP { Light UltraSphere1 }
+}
+
+PULSELIGHT ModdedInvulnerabilitySphere1
+{
+Color 0 0.8 0
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT ModdedInvulnerabilitySphere
+{
+Frame PINV { Light ModdedInvulnerabilitySphere1 }
+}
+
+PULSELIGHT UnbelieveSphere1
+{
+Color 1.0 0 0.0
+OffSet 0 30 0
+Size 52
+SecondarySize 62
+Interval 1
+}
+
+OBJECT UnbelieveabilitySphere
+{
+Frame CARN { Light UnbelieveSphere1 }
+}

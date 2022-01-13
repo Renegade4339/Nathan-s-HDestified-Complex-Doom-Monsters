@@ -1,0 +1,417 @@
+//========================
+// Mixed Monster Spawners
+//========================
+// Originally edited by Red on the HD Discord. 
+
+ACTOR ZombiemanSpawner : RandomSpawner Replaces Zombieman
+{
+	DropItem "ZombieHideousTrooper",   256, 65
+	DropItem "GunnerSpawner",          256, 30
+	DropItem "RocketCommander",        256, 5
+}
+
+
+
+// Normally plasma (since that's much easier to dodge).
+ACTOR GunnerSpawner : RandomSpawner
+{
+	DropItem "PlasmaGunner",           256, 80
+	DropItem "LanceGunner",            256, 20
+	DropItem "DemonTechGunner",        256, 9
+
+	// As a treat. 
+	DropItem "BFGZombieman",            256, 1
+}
+
+
+// Adds tech zombies to the shotgunner pools.
+ACTOR ShotgunZombieSpawner : RandomSpawner Replaces ShotgunGuy
+{
+	DropItem "HideousJackbootReplacer", 256, 90
+	DropItem "QuadCommander",           256, 10
+}
+
+
+
+
+ACTOR ChainZombieSpawner : RandomSpawner Replaces ChaingunGuy
+{
+	DropItem "HDChainReplacer", 256, 50
+	DropItem "UACommandoSpawner", 256, 50
+}
+
+
+
+// The best of the best. 
+// Or really, the best of the worst.
+ACTOR UACommandoSpawner : RandomSpawner
+{
+	DropItem "Chaingunner",        256, 33
+	DropItem "AssaultRifleZombie", 256, 33
+	DropItem "Minigunner",         256, 33
+	
+}
+
+
+
+// Adds void, devil, and phase imps to the impspawner pool.
+ACTOR ComplexImpSpawner : RandomSpawner Replaces DoomImp
+{
+	DropItem "ImpSpawner", 256, 65
+
+	// Always snipes.
+	DropItem "VoidImp",    256, 15
+
+	// Always seeks.
+	DropItem "Devil",      256, 15
+
+	// Pain in the ass.
+	DropItem "PhaseImp",   256, 5
+}
+
+
+
+// Adds cyber, magma, and tech fiends to the demonspawner pool.
+ACTOR DemonSpawner : RandomSpawner Replaces Demon
+{
+	DropItem "Babuin",     256, 70
+	DropItem "CyberFiend", 256, 15
+	DropItem "MagmaFiend", 256, 10
+	DropItem "DTechFiend", 256, 5
+}
+
+
+
+ACTOR SpectreSpawner : RandomSpawner Replaces Spectre
+{
+	DropItem "specbabuin",  256, 95
+	DropItem "ninjapirate", 256, 1
+	DropItem "Lurker",      256, 2
+	DropItem "Spook",       256, 2
+}
+
+
+// Watcher commented out for this release, for obvious reasons*
+// *it's from a different mod. 
+ACTOR SoulSpawner : RandomSpawner Replaces LostSoul
+{
+	DropItem "FlyingSkull",   256, 80
+	//DropItem "Watcher",       256, 8
+	DropItem "ForgottenOne",  256, 4
+	DropItem "PoisonSoul",    256, 4
+	DropItem "Rictus",        256, 2
+	DropItem "Putto",         256, 2
+}
+
+
+
+ACTOR CacodemonSpawner : RandomSpawner Replaces Cacodemon
+{
+	DropItem "Trilobite", 256, 84
+	DropItem "Watcher", 256, 10
+	DropItem "Cacomental", 256, 6
+}
+
+
+
+ACTOR PainSpawner : RandomSpawner Replaces PainElemental
+{
+	DropItem "SkullSpitter", 256, 70
+	DropItem "Defiler", 256, 10
+	DropItem "PoisonElemental", 256, 10
+	DropItem "BombElemental", 256, 10
+}
+
+
+
+ACTOR ArachnoSpawner : RandomSpawner Replaces Arachnotron
+{
+	DropItem "Technospider",   256, 50
+	DropItem "Dualachnotron",  256, 20
+	DropItem "Fusionite",      256, 20
+	DropItem "BabyDemolisher", 256, 5
+	DropItem "BabySentient",   256, 5
+}
+
+
+
+ACTOR FatsoSpawner : RandomSpawner Replaces Fatso
+{
+	DropItem "CombatSlug",   256, 70
+	DropItem "Behemoth",     256, 10
+	DropItem "Daedabus",     256, 10
+	DropItem "Barbatos",     256, 10
+}
+
+ACTOR VileSpawner: RandomSpawner Replaces ArchVile
+{
+	DropItem "Necromancer", 256, 33
+	DropItem "Diabolist",   256, 33
+	DropItem "DarkHellion", 256, 33
+}
+
+
+/*
+ACTOR ArachReplacer Replaces Arachnotron
+{
++NOSECTOR
++NOGRAVITY
++BOSSDEATH
++SHOOTABLE
++ISMONSTER
++NORADIUSDMG
++NOINTERACTION
++NOBLOCKMAP
+HEALTH 0x7FFFFFFF
+Radius 0
+Height 0
+Mass 0x7FFFFFFF
+States
+{
+Spawn:
+    TNT1 A 1 
+	TNT1 A 0 A_Jump(26,"DualSpawn")
+    TNT1 A 0 A_Jump(26,"FusioniteSpawn")
+	TNT1 A 0 A_Jump(12,"BabyDemoSpawn")	
+	TNT1 A 0 A_Jump(6,"BabySentSpawn")	
+NormalSpawn:
+    TNT1 A 0 A_SpawnItemEx("Technospider",0,0,0,0,0,0,0,272)
+    Goto Nothing
+DualSpawn:
+    TNT1 A 0 A_SpawnItemEx("Dualachnotron",0,0,0,0,0,0,0,272)
+    Goto Nothing
+FusioniteSpawn:
+    TNT1 A 0 A_SpawnItemEx("Fusionite",0,0,0,0,0,0,0,272)
+    Goto Nothing
+BabyDemoSpawn:
+    TNT1 A 0 A_SpawnItemEx("BabyDemolisher",0,0,0,0,0,0,0,272)
+    Goto Nothing
+BabySentSpawn:
+    TNT1 A 0 A_SpawnItemEx("BabySentient",0,0,0,0,0,0,0,272)
+    Goto Nothing
+Nothing:
+    TNT1 A 1
+    Loop
+Death:
+    TNT1 A 0 A_BossDeath
+    Stop
+    }
+}
+
+
+
+ACTOR FattyReplacer Replaces Fatso
+{
++NOSECTOR
++NOGRAVITY
++BOSSDEATH
++SHOOTABLE
++ISMONSTER
++NORADIUSDMG
++NOINTERACTION
++NOBLOCKMAP
+HEALTH 0x7FFFFFFF
+Radius 0
+Height 0
+Mass 0x7FFFFFFF
+States
+{
+Spawn:
+    TNT1 A 1	
+    TNT1 A 0 A_Jump(26,"DaedaSpawn")
+	TNT1 A 0 A_Jump(12,"BeheSpawn")
+	TNT1 A 0 A_Jump(6,"BarbaSpawn")	
+NormalSpawn:
+    TNT1 A 0 A_SpawnItemEx("CombatSlug",0,0,0,0,0,0,0,272)
+    Goto Nothing
+DaedaSpawn:
+    TNT1 A 0 A_SpawnItemEx("Daedabus",0,0,0,0,0,0,0,272)
+    Goto Nothing
+BeheSpawn:
+    TNT1 A 0 A_SpawnItemEx("Behemoth",0,0,0,0,0,0,0,272)
+    Goto Nothing
+BarbaSpawn:
+    TNT1 A 0 A_SpawnItemEx("Barbatos",0,0,0,0,0,0,0,272)
+    Goto Nothing	
+Nothing:
+    TNT1 A 1
+    Loop
+Death:
+    TNT1 A 0 A_BossDeath
+    Stop
+    }
+}
+
+ACTOR SkeletonSpawner : RandomSpawner Replaces Revenant
+{
+DropItem "Boner", 256, 83
+DropItem "Cadaver", 256, 9
+DropItem "HellfireRevenant", 256, 5
+DropItem "Famine" 256, 3
+}
+
+ACTOR MinorSpawner : RandomSpawner Replaces HellKnight
+{
+DropItem "Painbringer", 256, 83
+DropItem "PyroDemon", 256, 9
+DropItem "CyberNoble", 256, 5
+DropItem "HellDuke" 256, 3
+}
+
+ACTOR NobleReplacer Replaces BaronOfHell
+{
++NOSECTOR
++NOGRAVITY
++BOSSDEATH
++SHOOTABLE
++ISMONSTER
++NORADIUSDMG
++NOINTERACTION
++NOBLOCKMAP
+HEALTH 0x7FFFFFFF
+Radius 0
+Height 0
+Mass 0x7FFFFFFF
+States
+{
+Spawn:
+    TNT1 A 1
+    TNT1 A 0 A_Jump(22,"BruiserSpawn")
+	TNT1 A 0 A_Jump(10,"CybruiserSpawn")	
+NormalSpawn:
+    TNT1 A 0 A_SpawnItemEx("PainLord",0,0,0,0,0,0,0,272)
+    Goto Nothing
+BruiserSpawn:
+    TNT1 A 0 A_SpawnItemEx("BruiserDemon",0,0,0,0,0,0,0,272)
+    Goto Nothing
+CybruiserSpawn:
+    TNT1 A 0 A_SpawnItemEx("Cybruiser",0,0,0,0,0,0,0,272)
+    Goto Nothing	
+Nothing:
+    TNT1 A 1
+    Loop
+Death:
+    TNT1 A 0 A_BossDeath
+    Stop
+    }
+}
+
+ACTOR VileSpawner: RandomSpawner Replaces ArchVile
+{
+DropItem "Necromancer", 256, 91
+DropItem "Diabolist", 256, 6
+DropItem "DarkHellion", 256, 3
+}
+
+ACTOR MastermindReplacer Replaces SpiderMastermind
+{
++NOSECTOR
++NOGRAVITY
++BOSSDEATH
++SHOOTABLE
++ISMONSTER
++NORADIUSDMG
++NOINTERACTION
++NOBLOCKMAP
+HEALTH 0x7FFFFFFF
+Radius 0
+Height 0
+Mass 0x7FFFFFFF
+States
+{
+Spawn:
+    TNT1 A 1
+	TNT1 A 0 A_Jump(28,"DarkDemoSpawn")
+    TNT1 A 0 A_Jump(18,"CerebralSpawn")	
+NormalSpawn:
+    TNT1 A 0 A_SpawnItemEx("Technorantula",0,0,0,0,0,0,0,272)
+    Goto Nothing
+DarkDemoSpawn:
+    TNT1 A 0 A_SpawnItemEx("DarkDemolisher",0,0,0,0,0,0,0,272)
+    Goto Nothing		
+CerebralSpawn:
+    TNT1 A 0 A_SpawnItemEx("CerebralSentient",0,0,0,0,0,0,0,272)
+    Goto Nothing	
+Nothing:
+    TNT1 A 1
+    Loop
+Death:
+    TNT1 A 0 A_BossDeath
+    Stop
+    }
+}
+
+ACTOR CyberReplacer Replaces Cyberdemon
+{
++NOSECTOR
++NOGRAVITY
++BOSSDEATH
++SHOOTABLE
++ISMONSTER
++NORADIUSDMG
++NOINTERACTION
++NOBLOCKMAP
+HEALTH 0x7FFFFFFF
+Radius 0
+Height 0
+Mass 0x7FFFFFFF
+States
+{
+Spawn:
+    TNT1 A 1 
+	TNT1 A 0 A_Jump(26,"DarkCybSpawn")
+    TNT1 A 0 A_Jump(16,"CardySpawn")	
+NormalSpawn:
+    TNT1 A 0 A_SpawnItemEx("SatanRobo",0,0,0,0,0,0,0,272)
+    Goto Nothing
+DarkCybSpawn:
+    TNT1 A 0 A_SpawnItemEx("DarkCyberdemon",0,0,0,0,0,0,0,272)
+    Goto Nothing	
+CardySpawn:
+    TNT1 A 0 A_SpawnItemEx("Cardinal",0,0,0,0,0,0,0,272)
+    Goto Nothing	
+Nothing:
+    TNT1 A 1
+    Loop
+Death:
+    TNT1 A 0 A_BossDeath
+    Stop
+    }
+}
+
+ACTOR WolfSSSpawner : RandomSpawner Replaces WolfensteinSS
+{
+DropItem "HoopBubble", 256, 32
+DropItem "HoopBubble", 256, 24
+DropItem "HoopBubble", 256, 18
+DropItem "HoopBubble", 256, 16
+DropItem "Babuin" 256, 8
+DropItem "Hitler", 256, 2
+}
+*/
+
+
+//======================================================================
+// Health & Armor Bonus / Red Armor / Pure Rage / Mixed Sphere Spawners
+//======================================================================
+/*
+ACTOR Blurorbs : RandomSpawner Replaces BlurSphere
+{
+Dropitem "BlazingsphereItem"
+DropItem "HasteSphere"
+}
+
+ACTOR Sphereorbs : RandomSpawner Replaces SoulSphere
+{
+DropItem "LifeSphere"
+}
+
+ACTOR Megaorbs : RandomSpawner Replaces MegaSphere
+{
+DropItem "UltraSphere"
+}
+
+ACTOR Godorbs : RandomSpawner Replaces InvulnerabilitySphere
+{
+DropItem "UnbelieveabilitySphere"
+}*/

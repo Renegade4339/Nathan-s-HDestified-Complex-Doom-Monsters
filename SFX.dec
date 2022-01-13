@@ -1,0 +1,5017 @@
+//======================
+// "Hitscan" Projectile
+//======================
+
+ACTOR ProjectileBullet : FastProjectile
+{
+   Height 1
+   Radius 1
+   Speed 350
+   Damage (Random(1,3)*5)
+   +NOEXTREMEDEATH
+   +NOTIMEFREEZE
+   +BLOODSPLATTER
+   Decal BulletChip
+   States
+   {
+   Spawn:
+      TNT1 A 1
+      Loop
+   Death:
+      TNT1 A 0
+      TNT1 A 1 A_SpawnItem("ModdedBulletPuff")
+      Stop
+   XDeath:
+      TNT1 A 1
+      Stop
+	  }
+}
+
+ACTOR PlayerDTBFGRailgunSlug : ProjectileBullet
+{
+   Damage 8
+   DamageType "PDTBFG"
+   Species "Player"  
+   Decal None
+   +RIPPER
+   +NOBOSSRIP   
+   +BLOODLESSIMPACT
+   +NODAMAGETHRUST
+   +THRUSPECIES
+   -NOEXTREMEDEATH
+   States
+   {
+   Death:
+      TNT1 A 1
+      Stop
+	  }
+}
+
+ACTOR SentientDTBFGRailgunSlug : PlayerDTBFGRailgunSlug
+{
+-RIPPER
+Species "Masterminds"
+Damage (Random(1,4))
+DamageType "SDTBFG"
+}
+
+ACTOR CardinalDTBFGRailgunSlug : SentientDTBFGRailgunSlug
+{
+Species "Cybers"
+DamageType "CDTBFG"
+}
+
+ACTOR SentientExplosiveTracer : FastProjectile
+{
+Height 1
+Radius 1
+Speed 250
+Scale 0.8
+Damage 0
+RenderStyle Add
+Alpha 0.85
+DeathSound "sentient/chaingunex"
+DamageType "CerChainguns"
+Decal DoomImpScorch
++FORCERADIUSDMG
++RANDOMIZE
++FORCEXYBILLBOARD
++NOTIMEFREEZE
+States
+{
+Spawn:
+    TRAC A 1 Bright
+	Loop
+Death:
+	TNT1 A 0
+	TNT1 A 0 A_SetTranslucent(0.75,1)
+	TNT1 A 0 A_SpawnItem("SentientExplosiveEffect")
+    MISL B 4 Bright A_Explode(Random(3,6)*5,72)
+    MISL CD 3 Bright
+    Stop
+    }
+}
+
+ACTOR BabySentientExplosiveTracer : SentientExplosiveTracer
+{
+DamageType "Baby15K"
+Scale 0.6
+States
+{
+Spawn:
+    TRAC A 1 Bright
+	Loop
+	}
+}
+
+ACTOR SentientExplosiveEffect
+{
++CLIENTSIDEONLY
++NOGRAVITY
++NOBLOCKMAP
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_SpawnItemEx("OrangeParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128) 
+    TNT1 AAA 0 A_CustomMissile("Kaboom16", 0, 0, random(0,360), 2, random(0,360))
+	TNT1 AAA 0 A_CustomMissile("SmokeFX6", 0, 0, random(0,360), 2, random(0,360))
+	TNT1 A 1
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+//=========
+// Tracers
+//=========
+
+ACTOR Tracer : FastProjectile
+{
+Radius 1
+Height 1
+Speed 150
+Scale 0.1
+RenderStyle Add
+Alpha 0.85
++RANDOMIZE
++FORCEXYBILLBOARD
+States
+{
+Spawn:
+    TRAC A 1 Bright
+	Loop
+Death:
+	TNT1 A 1
+	TNT1 A 1{}
+	Stop
+	}
+}
+
+ACTOR SGTracer : Tracer
+{
+Speed 100
+Scale 0.075
+States
+{
+Spawn:
+    TRAC A 10 Bright
+	Stop
+	}
+}
+
+ACTOR MonsterTracer : Tracer
+{
+Scale 0.075
+}
+
+ACTOR MonsterTracer2 : SGTracer
+{
+Scale 0.05
+}
+
+ACTOR MonsterTracer3 : Tracer
+{
+Speed 125
+Scale 0.125
+}
+
+//=================
+// Railgun Impacts
+//=================
+
+ACTOR RailgunImpact : FastProjectile
+{
+Speed 300
+Radius 1
+Height 1
+RenderStyle Add
+Alpha 0.85
++RANDOMIZE
++THRUACTORS
+States
+{
+Spawn:
+	TNT1 A 1
+	Loop
+Death:
+	TNT1 A 0
+	TNT1 A 1 A_SpawnItem("RailgunImpactEffect")
+	Stop
+	}
+}
+
+ACTOR RailgunImpactRed : RailgunImpact
+{
+-THRUACTORS
+States
+{
+Death:
+	TNT1 A 0
+	TNT1 A 1 A_SpawnItem("RailgunImpactEffectRed")
+	Stop
+	}
+}
+
+ACTOR RailgunImpactRed2 : RailgunImpactRed
+{
++THRUACTORS
+}
+
+ACTOR RailgunImpactPurple : RailgunImpact
+{
+States
+{
+Death:
+	TNT1 A 0
+	TNT1 A 1 A_SpawnItem("RailgunImpactEffectPurple")
+	Stop
+	}
+}
+
+ACTOR RailgunImpactGreen : RailgunImpact
+{
+States
+{
+Death:
+	TNT1 A 0
+	TNT1 A 1 A_SpawnItem("RailgunImpactEffectGreen")
+	Stop
+	}
+}
+
+ACTOR RailgunImpactEffect
+{
++CLIENTSIDEONLY
++NOBLOCKMAP
++NOGRAVITY
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAA 0 A_SpawnItemEx("BlueParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAAAAA 1 A_SpawnItem("RailImpactFlare",0)
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR RailgunImpactEffectRed : RailgunImpactEffect
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAA 0 A_SpawnItemEx("RedParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAAAAA 1 A_SpawnItem("RailImpactFlareRed",0)
+	Stop
+	}
+}
+
+ACTOR RailgunImpactEffectPurple : RailgunImpactEffect
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAA 0 A_SpawnItemEx("PurpleParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAAAAA 1 A_SpawnItem("RailImpactFlarePurple",0)
+	Stop
+	}
+}
+
+ACTOR RailgunImpactEffectGreen : RailgunImpactEffect
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAA 0 A_SpawnItemEx("GreenParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAAAAA 1 A_SpawnItem("RailImpactFlareGreen",0)
+	Stop
+	}
+}
+
+//====================
+// Red 10K Projectile
+//====================
+
+ACTOR Red10KProjectile : FastProjectile
+{
+   Height 1
+   Radius 1
+   Speed 100
+   Scale 0.15
+   RenderStyle Add
+   Alpha 0.85
+   +NOEXTREMEDEATH
+   DeathSound "weapons/bfg95explode"
+   States
+   {
+   Spawn:
+      TRA3 A 1 Bright
+      Loop
+   Death:
+   XDeath:  
+      TNT1 A 0
+      TNT1 A 1 A_SpawnItem("Red10KEx")
+      Stop
+	  }
+}
+
+ACTOR Red10KEx
+{
+  Radius 11
+  Height 8
+  Damage 140
+  +NOBLOCKMAP
+  +NOGRAVITY
+  +NOTELEPORT 
+  +FORCERADIUSDMG
+  +BLOODLESSIMPACT
+  Renderstyle Add
+  Alpha 0.75
+  Scale 0.85
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("BFGShockwaveRed", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 A 0 A_SpawnItemEx("RedParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAA 0 A_CustomMissile("Kaboom14", 0, 0, random(0,360), 2, random(0,360))
+    CFE1 A 4 Bright A_Detonate
+    CFE1 BCDEF 4 Bright
+    Stop
+  }
+}
+
+//====================
+// DTBFG10K "Tracers"
+//====================
+
+ACTOR DTBFG10KTracer : FastProjectile
+{
+   Height 4
+   Radius 16
+   Speed 60
+   Damage 50
+   Decal None
+   Species "Player"
+   DamageType "PDTBFGTracer"
+   +THRUSPECIES
+   States
+   {
+   Spawn:
+      TNT1 A 15
+	  Stop
+   Death:
+      TNT1 A 1
+      Stop
+   XDeath:
+	  TNT1 A 0
+      TNT1 A 1 A_SpawnItem("CustomSpray")
+      Stop
+	  }
+}
+
+ACTOR DTBFG10KTracerMind : DTBFG10KTracer
+{
+   -THRUSPECIES
+   Species "Masterminds"
+   DamageType "CerEnergyBall"
+   States
+   {
+   XDeath:
+      TNT1 A 0
+      TNT1 A 1 A_SpawnItem("CustomSpray2")
+      Stop
+	  }
+}
+
+ACTOR DTBFG10KTracerCyber : DTBFG10KTracerMind
+{
+   Species "Cybers"
+   DamageType "Cyber10K"
+}
+
+//=============
+// BFG15K Ball
+//=============
+
+ACTOR BFG15KBall : BFG9500Ball
+{
+Height 15
+Radius 15
+Speed 35
+Damage 20
+Scale 0.5
++FORCERADIUSDMG
+ExplosionDamage 108
+ExplosionRadius 162
+SeeSound "weapons/bfg15kfire"
+DeathSound "weapons/bfg95explode"
+States
+{
+Spawn:
+    BFS1 AB 2 Bright A_SpawnItemEx("BFGTrailParticleGreen",Random(-8,8),Random(-8,8),Random(-8,8),Random(-1,1),Random(-1,1),Random(-1,1),Random(-20,20),128)
+    Loop
+Death:
+	TNT1 A 0
+    TNT1 A 0 A_SpawnItemEx("BFGShockwave", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 A 0 A_SpawnItemEx("GreenParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128) 
+	TNT1 AAA 0 A_CustomMissile("Kaboom13", 0, 0, random(0,360), 2, random(0,360))      
+    BFE1 A 4 Bright A_Explode	
+    BFE1 BCDEF 4 Bright
+    Stop
+    }
+}
+
+//==============
+// Sound Actors
+//==============
+
+ACTOR FootStep
+{
++CLIENTSIDEONLY
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("foot/step")
+Stop
+}
+}
+
+ACTOR BodyCrash : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("body/crash")
+Stop
+}
+}
+
+ACTOR HumanishStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("humanish/step")
+Stop
+}
+}
+
+ACTOR HeavyFleshStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("humanish2/step")
+Stop
+}
+}
+
+ACTOR BeefyStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("beefy/step")
+Stop
+}
+}
+
+ACTOR BonyStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("bony/step")
+Stop
+}
+}
+
+ACTOR HoofStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("hoof/step")
+Stop
+}
+}
+
+ACTOR HitlerSuitStep : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("hitler/step")
+Stop
+}
+}
+
+ACTOR FleshHit : FootStep
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("flesh/wound")
+Stop
+}
+}
+
+//========
+// Flares
+//========
+
+ACTOR BaseFlare
+{
+Radius 1
+Height 1
+Scale 0.3
++NOCLIP
++NOBLOCKMAP
++NOGRAVITY
++CLIENTSIDEONLY
++NOINTERACTION
++FORCEXYBILLBOARD
+RENDERSTYLE Add
+Alpha 0.3
+States
+{
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR BlueSphereFlare : BaseFlare
+{
+Scale 0.2
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENB A 1 Bright
+	Stop
+	}
+}
+
+ACTOR RailImpactFlare : BlueSphereFlare
+{
+Scale 0.6
+}
+
+ACTOR WhiteSphereFlare : BlueSphereFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENW A 1 Bright
+	Stop
+	}
+}
+
+ACTOR MegaSphereFlare : WhiteSphereFlare
+{
+Alpha 0.15
+}
+
+ACTOR YellowSphereFlare : BlueSphereFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENY A 1 Bright
+	Stop
+	}
+}
+
+ACTOR PurpleSphereFlare : BlueSphereFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENP A 1 Bright
+	Stop
+	}
+}
+
+ACTOR RailImpactFlarePurple : PurpleSphereFlare
+{
+Scale 0.5
+}
+
+ACTOR GreenSphereFlare : BlueSphereFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENG A 1 Bright
+	Stop
+	}
+}
+
+ACTOR RailImpactFlareGreen : GreenSphereFlare
+{
+Scale 0.5
+}
+
+ACTOR RedSphereFlare : BlueSphereFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENR A 1 Bright
+	Stop
+	}
+}
+
+ACTOR RailImpactFlareRed : RedSphereFlare
+{
+Scale 0.5
+}
+
+ACTOR YellowFlareSmall : BaseFlare
+{
+Scale 0.35
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LEYS A 2 Bright
+	Stop
+	}
+}
+
+ACTOR YellowFlareTiny : BaseFlare
+{
+Scale 0.1
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LEYS A 2 Bright
+	Stop
+	}
+}
+
+ACTOR WhiteFlare : BaseFlare
+{
+Scale 0.45
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENS A 2 Bright
+	Stop
+	}
+}
+
+ACTOR WhiteFlareSmall : BaseFlare
+{
+Scale 0.35
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	LENS A 2 Bright
+	Stop
+	}
+}
+
+ACTOR OrangeFlare : BaseFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NO A 2 Bright
+	Stop
+	}
+}
+
+ACTOR BlueFlare : BaseFlare
+{
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NB A 2 Bright
+	Stop
+	}
+}
+
+ACTOR GreenFlare : BaseFlare
+{
+Alpha 0.3
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NG A 2 Bright
+	Stop
+	}
+}
+
+ACTOR OrangeFlareSmall : BaseFlare
+{
+Scale 0.2
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NO A 2 Bright
+	Stop
+	}
+}
+
+ACTOR BlueFlareSmall : BaseFlare
+{
+Scale 0.2
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NB A 2 Bright
+	Stop
+	}
+}
+
+ACTOR GreenFlareSmall : BaseFlare
+{
+Scale 0.2
+States
+{
+Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	L2NG A 2 Bright
+	Stop
+	}
+}
+
+//=========
+// Casings
+//=========
+
+ACTOR BulletCasing
+{
+	Radius 3
+	Scale 0.18
+	+MISSILE
+    +CLIENTSIDEONLY
+	+NOTELEPORT	
+	+DOOMBOUNCE
+	+THRUACTORS
+	+DROPOFF
+	BounceFactor 0.5
+	WallBounceFactor 0.25
+	BounceCount 3
+	Seesound "weapons/casing1"
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  CAS2 ABCDEFGH 2
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      CAS2 C 100
+      CAS2 C 5 A_FadeOut(0.10)
+      Goto Death+3
+      CAS2 G 100
+	  CAS2 G 5 A_FadeOut(0.10)
+	  Goto Death+5
+    Toaster:
+	  TNT1 A 0
+	  Stop
+	  }
+}
+
+ACTOR ShellCasing : BulletCasing
+{
+	Scale 0.24
+	Seesound "weapons/casing2"
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  REDC ABCDEFGH 2
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      REDC C 100
+      REDC C 5 A_FadeOut(0.10)
+      Goto Death+3
+      REDC G 100
+	  REDC G 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+ACTOR SSGShellCasing : ShellCasing
+{
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  REDC DCBAHGFE 2
+	  Loop
+	  }
+}
+
+ACTOR OrangeShellCasing : ShellCasing
+{
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  ORNC DCBAHGFE 2
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      ORNC C 100
+      ORNC C 5 A_FadeOut(0.10)
+      Goto Death+3
+      ORNC G 100
+	  ORNC G 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR RifleCasing : BulletCasing
+{
+	Scale 0.18
+	Seesound "weapons/casing1"
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  CAS7 GHABCDEF 2
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      CAS7 A 100
+      CAS7 A 5 A_FadeOut(0.10)
+      Goto Death+3
+      CAS7 E 100
+	  CAS7 E 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR PistolEmptyMag : BulletCasing
+{
+	Scale 0.5
+    SeeSound "MP40/EmptyMagazine"
+    States
+    {
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  CLP1 ABCDEF 3  
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      CLP1 A 100
+      CLP1 A 5 A_FadeOut(0.10)
+      Goto Death+3
+      CLP1 D 100
+	  CLP1 D 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR EmptyDrum : BulletCasing
+{
+	Scale 0.2
+	Seesound "weapons/emptydrum"
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  EDRM ABCD 3 
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      EDRM A 100
+      EDRM A 5 A_FadeOut(0.10)
+      Goto Death+3
+      EDRM C 100
+	  EDRM C 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR AREmptyMag : BulletCasing
+{
+	Scale 0.85
+    SeeSound "MP40/EmptyMagazine"
+    States
+    {
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  ECLI ABCDEF 3  
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      ECLI A 100
+      ECLI A 5 A_FadeOut(0.10)
+      Goto Death+3
+      ECLI C 100
+	  ECLI C 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR MP40EmptyMag : BulletCasing
+{
+	Scale 0.6
+    SeeSound "MP40/EmptyMagazine"
+    States
+    {
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  SMEC ABCDEF 3  
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      SMEC A 100
+      SMEC A 5 A_FadeOut(0.10)
+      Goto Death+3
+      SMEC D 100
+	  SMEC D 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR RocketEmptyDrum : BulletCasing
+{
+    Scale 1
+    SeeSound "weapons/rocketdrumbounce"
+    States
+    {
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  RCSE ABCDEF 3  
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      RCSE A 100
+      RCSE A 5 A_FadeOut(0.10)
+      Goto Death+3
+      RCSE C 100
+	  RCSE C 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR CellCasing : BulletCasing
+{
+	Scale 0.55
+	Seesound "weapons/cellcasing"
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  ECEL ABCDEFGH 3 
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      ECEL A 100
+      ECEL A 5 A_FadeOut(0.10)
+      Goto Death+3
+      ECEL G 100
+	  ECEL G 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+ACTOR DemonTechEmptyMag : BulletCasing
+{
+	Scale 0.4
+    SeeSound "weapons/emptydrum"
+    States
+    {
+	Spawn:
+	  TNT1 A 0
+      TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	  EDTM ABCD 3  
+	  Loop
+    Death:
+	  TNT1 A 0
+      TNT1 A 0 A_Jump(128,3)
+      EDTM A 100
+      EDTM A 5 A_FadeOut(0.10)
+      Goto Death+3
+      EDTM C 100
+	  EDTM C 5 A_FadeOut(0.10)
+	  Goto Death+5
+	  }
+}
+
+//=================
+// Casing Spawners
+//=================
+
+ACTOR CasingSpawner
+{
+Height 1
+Radius 1
++CLIENTSIDEONLY
++NOGRAVITY
++NOBLOCKMAP
++NOCLIP
+}
+
+ACTOR PistolEmptyMagSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("PistolEmptyMag", 2, 0, -12, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+ACTOR EmptyDrumSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("EmptyDrum", 2, 0, -12, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+ACTOR MP40EmptyMagSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("MP40EmptyMag", -2, 0, -14, 1, 0, 0, Random(80, 90), 128)
+    Stop
+    }
+}
+
+ACTOR AREmptyMagSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("AREmptyMag", 2, 0, -12, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+ACTOR RocketEmptyDrumSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("RocketEmptyDrum", 2, 0, -12, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+ACTOR PlasmaCellCasingSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("CellCasing", 2, 0, -8, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+ACTOR CellCasingSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("CellCasing", -3, 0, -3, Random(2, 6), 0, 0, Random(-80, -90), 128)
+    Stop
+    }
+}
+
+ACTOR DemonTechEmptyMagSpawner : CasingSpawner
+{
+States
+{
+Spawn:
+    TNT1 A 0
+    TNT1 A 1 A_SpawnItemEx("DemonTechEmptyMag", 6, 0, -12, 1, 0, 0, Random(-100, -110), 128)
+    Stop
+    }
+}
+
+//==================================
+// Powerup Sparkles & Armor Effects
+//==================================
+
+ACTOR WhiteSparkleSpawner
+{
++CLIENTSIDEONLY
++NOGRAVITY
++NOBLOCKMAP
++NOTELEPORT
++DONTSPLASH
++NOCLIP
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("WhiteStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128)
+        Stop
+Toaster:
+		TNT1 A 0
+        Stop
+        }         
+}
+
+ACTOR BlueSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("BlueStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128)
+        Stop
+        }
+}
+
+ACTOR RedSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("RedStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR RegenSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("RedStar2", random(-10, 10), random(-10, 10), random(14, 24), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR RedSparkleSpawner3 : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("RedStar", random(-10, 10), random(-10, 10), random(16, 32), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR GreenSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("GreenStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR YellowSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("YellowStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR PurpleSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("PurpleStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR OrangeSparkleSpawner : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("OrangeStar", random(-15, 15), random(-15, 15), random(28, 44), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR OrangeSparkleSpawner2 : WhiteSparkleSpawner
+{
+States
+{
+Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+		TNT1 AA 2 A_SpawnItemEx("OrangeStar", random(-15, 15), random(-15, 15), random(16, 32), 0, 0, 0, 0, 128) 
+        Stop
+        }
+}
+
+ACTOR WhiteStar
+{
+Height 0
+Radius 0
+Speed 2
+Scale 0.16
+Renderstyle Add
+PROJECTILE
++CLIENTSIDEONLY
++DOOMBOUNCE
++DONTSPLASH
++NOTELEPORT
++NOGRAVITY
++FORCEXYBILLBOARD
++FLOATBOB
+States
+{
+Spawn:
+PTCL ABC 2 Bright A_FadeOut(0.05)
+Loop
+}
+}
+
+ACTOR BlueStar : WhiteStar
+{
+Translation "80:111=196:207"
+}
+
+ACTOR RedStar : WhiteStar
+{
+Translation "80:111=176:191"
+}
+
+ACTOR RedStar2 : RedStar
+{
+Scale 0.1
+}
+
+ACTOR GreenStar : WhiteStar
+{
+Translation "80:111=112:127"
+}
+
+ACTOR YellowStar : WhiteStar
+{
+Translation "80:111=160:167"
+}
+
+ACTOR PurpleStar : WhiteStar
+{
+Translation "80:111=251:251"
+}
+
+ACTOR OrangeStar : WhiteStar
+{
+Translation "80:111=218:218"
+}
+
+ACTOR BluePowerLineSpawner
+{
++CLIENTSIDEONLY
++NOGRAVITY
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 1 A_SpawnItemEx("BluePowerLine",random(12,-12),random(12,-12),0,0,0,2,0,128,0)
+    Stop
+Toaster:
+	TNT1 A 0
+    Stop    
+    }
+}
+
+ACTOR GreenPowerLineSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 1 A_SpawnItemEx("GreenPowerLine",random(12,-12),random(12,-12),0,0,0,2,0,128,0) 
+    Stop   
+    }
+}
+
+ACTOR RedPowerLineSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 1 A_SpawnItemEx("RedPowerLine",random(12,-12),random(12,-12),0,0,0,2,0,128,0) 
+    Stop  
+    }
+}
+
+ACTOR GrayPowerLineSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 1 A_SpawnItemEx("GrayPowerLine",random(10,-10),random(10,-10),0,0,0,2,0,128,0) 
+    Stop  
+    }
+}
+
+ACTOR BluePowerLine
+{
+Speed 1
+Radius 0
+Height 0
+Scale 0.28
+Translation "80:111=196:207"
+RenderStyle Add
+Alpha 0.8
++MISSILE
++NOGRAVITY
++NOBLOCKMAP
++NOINTERACTION
++NOTELEPORT
++DONTSPLASH
+-SOLID
+States
+{
+Spawn:
+   SPFX A 5 Bright
+   TNT1 A 0 A_Jump(128,"FadeOut2")
+Normal:
+   SPFX AAAAAAAA 1 Bright A_FadeOut(0.05)
+   Stop
+FadeOut2:
+   SPFX AAAAAAAA 1 Bright A_FadeOut(0.075)
+   Stop
+   }
+}
+
+ACTOR GreenPowerLine : BluePowerLine
+{
+Translation "80:111=112:127"
+States
+{
+Spawn:
+   SPFX A 5 Bright
+   TNT1 A 0 A_Jump(128,"FadeOut2")
+Normal:
+   SPFX AAAA 1 Bright A_FadeOut(0.05)
+   Stop
+FadeOut2:
+   SPFX AAAA 1 Bright A_FadeOut(0.075)
+   Stop
+   }
+}
+
+ACTOR RedPowerLine : BluePowerLine
+{
+Translation "80:111=176:191"
+}
+
+ACTOR GrayPowerLine : GreenPowerLine
+{
+Translation "80:111=80:111"
+}
+
+//========
+// Sparks
+//========
+
+ACTOR EnergyProjectileSparkRed
+{
+Height 0
+Radius 0
+Mass 0
+Damage 0
++THRUACTORS
++NOTELEPORT
++DONTSPLASH
++DOOMBOUNCE
++CLIENTSIDEONLY
++MISSILE
++NOBLOCKMAP
++FORCEXYBILLBOARD
+RENDERSTYLE ADD
+BounceFactor 0.5
+Gravity 0.4
+States
+{
+Spawn:
+SPKR A 2 Bright A_FadeOut(0.08)
+Loop
+}
+}
+
+ACTOR EPSR1 : EnergyProjectileSparkRed
+{
+Scale 0.06
+}
+
+ACTOR EPSR2 : EnergyProjectileSparkRed
+{
+Scale 0.05
+}
+
+ACTOR EPSR3 : EnergyProjectileSparkRed
+{
+Scale 0.04
+}
+
+ACTOR EPSR4 : EnergyProjectileSparkRed
+{
+Scale 0.03
+}
+
+ACTOR EPSR5 : EnergyProjectileSparkRed
+{
+Scale 0.02
+}
+
+ACTOR EPSR6 : EnergyProjectileSparkRed
+{
+Scale 0.01
+}
+
+ACTOR RedParticleSpawner
+{
+  +CLIENTSIDEONLY
+  +NOGRAVITY
+  +NOBLOCKMAP
+  +NOTELEPORT
+  +DONTSPLASH
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSR1",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSR2",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSR3",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSR4",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSR5",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSR6",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR EnergyProjectileSparkGreen : EnergyProjectileSparkRed
+{
+BounceFactor 0.6
+Gravity 0.2
+States
+{
+Spawn:
+SPKG A 2 Bright A_FadeOut(0.08)
+Loop
+}
+}
+
+ACTOR EPSG1 : EnergyProjectileSparkGreen
+{
+Scale 0.06
+}
+
+ACTOR EPSG2 : EnergyProjectileSparkGreen
+{
+Speed 1
+Scale 0.05
+}
+
+ACTOR EPSG3 : EnergyProjectileSparkGreen
+{
+Speed 2
+Scale 0.04
+}
+
+ACTOR EPSG4 : EnergyProjectileSparkGreen
+{
+Speed 3
+Scale 0.03
+}
+
+ACTOR EPSG5 : EnergyProjectileSparkGreen
+{
+Speed 4
+Scale 0.02
+}
+
+ACTOR EPSG6 : EnergyProjectileSparkGreen
+{
+Speed 5
+Scale 0.01
+}
+
+ACTOR GreenParticleSpawner : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSG1",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG2",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSG3",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG4",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSG5",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG6",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR EnergyProjectileSparkGreenDT : EnergyProjectileSparkGreen
+{
+States
+{
+Spawn:
+SPKG A 2 Bright A_FadeOut(0.08)
+Loop
+}
+}
+
+ACTOR EPSG7 : EnergyProjectileSparkGreenDT
+{
+Scale 0.040
+}
+
+ACTOR EPSG8 : EnergyProjectileSparkGreenDT
+{
+Scale 0.035
+}
+
+ACTOR EPSG9 : EnergyProjectileSparkGreenDT
+{
+Scale 0.030
+}
+
+ACTOR EPSG10 : EnergyProjectileSparkGreenDT
+{
+Scale 0.025
+}
+
+ACTOR EPSG11 : EnergyProjectileSparkGreenDT
+{
+Scale 0.020
+}
+
+ACTOR EPSG12 : EnergyProjectileSparkGreenDT
+{
+Scale 0.015
+}
+
+ACTOR GreenParticleSpawnerDT : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSG7",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG8",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSG9",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG10",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSG11",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSG12",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR ProjectileTrailParticleGreen : EnergyProjectileSparkGreen
+{
++NOGRAVITY
+Scale 0.02
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SPKG A 2 Bright A_FadeOut(0.08)
+Loop
+Toaster:
+TNT1 A 0
+Stop
+}
+}
+
+ACTOR ProjectileTrailParticleGreen2 : ProjectileTrailParticleGreen
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SPKG A 2 Bright A_FadeOut(0.15)
+Loop
+}
+}
+
+ACTOR BFGTrailParticleGreen : ProjectileTrailParticleGreen
+{
+Scale 0.06
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SPKG A 2 Bright A_FadeOut(0.015)
+Loop
+}
+}
+
+ACTOR EnergyProjectileSparkBlue : EnergyProjectileSparkRed
+{
+BounceFactor 0.2
+BounceCount 3
+Gravity 0.75
+States
+{
+Spawn:
+SPKB A 2 Bright A_FadeOut(0.08)
+Loop
+}
+}
+
+ACTOR EPSB1 : EnergyProjectileSparkBlue
+{
+Scale 0.06
+}
+
+ACTOR EPSB2 : EnergyProjectileSparkBlue
+{
+Scale 0.05
+}
+
+ACTOR EPSB3 : EnergyProjectileSparkBlue
+{
+Scale 0.04
+}
+
+ACTOR EPSB4 : EnergyProjectileSparkBlue
+{
+Scale 0.03
+}
+
+ACTOR EPSB5 : EnergyProjectileSparkBlue
+{
+Scale 0.02
+}
+
+ACTOR EPSB6 : EnergyProjectileSparkBlue
+{
+Scale 0.01
+}
+
+ACTOR BlueParticleSpawner : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSB1",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSB2",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSB3",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSB4",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSB5",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSB6",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR EnergyProjectileSparkOrange : EnergyProjectileSparkRed
+{
++NOGRAVITY
+States
+{
+Spawn:
+SPKO A 3 Bright A_FadeOut(0.1)
+Loop
+}
+}
+
+ACTOR EPSO1 : EnergyProjectileSparkOrange
+{
+Scale 0.065
+}
+
+ACTOR EPSO2 : EnergyProjectileSparkOrange
+{
+Scale 0.055
+}
+
+ACTOR EPSO3 : EnergyProjectileSparkOrange
+{
+Scale 0.045
+}
+
+ACTOR EPSO4 : EnergyProjectileSparkOrange
+{
+Scale 0.035
+}
+
+ACTOR EPSO5 : EnergyProjectileSparkOrange
+{
+Scale 0.025
+}
+
+ACTOR EPSO6 : EnergyProjectileSparkOrange
+{
+Scale 0.015
+}
+
+ACTOR OrangeParticleSpawner : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSO1",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSO2",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSO3",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSO4",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSO5",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSO6",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR SEPSO1 : EnergyProjectileSparkOrange
+{
+BounceFactor 0.2
+BounceCount 3
+Gravity 0.75
+-NOGRAVITY
+Speed 1
+Scale 0.006
+}
+
+ACTOR SEPSO2 : SEPSO1
+{
+Speed 1
+Scale 0.008
+}
+
+ACTOR SEPSO3 : SEPSO1
+{
+Speed 1
+Scale 0.010
+}
+
+ACTOR SawParticleSpawner : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("SEPSO1", 0, 0, 0, (0.1)*Random(15, 30), 0, (0.1)*Random(-25, 25), Random(0, 360), 128)
+    TNT1 A 0 A_SpawnItemEx("SEPSO2", 0, 0, 0, (0.1)*Random(15, 30), 0, (0.1)*Random(-25, 25), Random(0, 360), 128)
+    TNT1 A 0 A_SpawnItemEx("SEPSO3", 0, 0, 0, (0.1)*Random(15, 30), 0, (0.1)*Random(-25, 25), Random(0, 360), 128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR ProjectileTrailParticleOrange :  EnergyProjectileSparkOrange
+{
++NOGRAVITY
+Scale 0.02
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SPKO A 1 Bright A_FadeOut(0.08)
+Loop
+Toaster:
+TNT1 A 0
+Stop
+}
+}
+
+ACTOR ProjectileTrailParticleOrange2 :  ProjectileTrailParticleOrange
+{
++NOGRAVITY
+Scale 0.045
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SPKO A 2 Bright A_FadeOut(0.015)
+Loop
+}
+}
+
+ACTOR EnergyProjectileSparkPurple : EnergyProjectileSparkRed
+{
+BounceFactor 0.2
+BounceCount 3
+Gravity 0.75
+States
+{
+Spawn:
+SPKP A 2 Bright A_FadeOut(0.08)
+Loop
+}
+}
+
+ACTOR EPSP1 : EnergyProjectileSparkPurple
+{
+Scale 0.06
+}
+
+ACTOR EPSP2 : EnergyProjectileSparkPurple
+{
+Scale 0.05
+}
+
+ACTOR EPSP3 : EnergyProjectileSparkPurple
+{
+Scale 0.04
+}
+
+ACTOR EPSP4 : EnergyProjectileSparkPurple
+{
+Scale 0.03
+}
+
+ACTOR EPSP5 : EnergyProjectileSparkPurple
+{
+Scale 0.02
+}
+
+ACTOR EPSP6 : EnergyProjectileSparkPurple
+{
+Scale 0.01
+}
+
+ACTOR PurpleParticleSpawner : RedParticleSpawner
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 A_SpawnItemEx("EPSP1",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSP2",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSP3",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSP4",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 0 A_SpawnItemEx("EPSP5",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+	TNT1 A 0 A_SpawnItemEx("EPSP6",0,0,0,Random(4,-4),Random(4,-4),Random(4,-4),0,128)
+    TNT1 A 1
+    Stop
+  }
+}
+
+//====================
+// Puffs, Blood, Gibs
+//====================
+
+ACTOR ModdedBulletPuff : BulletPuff Replaces BulletPuff
+{
+Scale 0.75
+States
+{
+Spawn:
+	PUFF A 2 Bright
+	PUFF B 2 Bright A_Jump(24,"RicochetPuff","RicochetPuffAlt")
+	PUFF CDEF 2
+    Stop
+RicochetPuff:
+	TNT1 A 0
+	TNT1 A 0 A_PlaySound("puff/ricochet")
+	TNT1 A 1 Bright A_SpawnItem("RicochetSpark",0,0,0)
+	PUFF CDEF 2
+	Stop
+RicochetPuffAlt:
+	TNT1 A 0
+	TNT1 A 0 A_PlaySound("puff/ricochet")
+	TNT1 A 1 Bright A_SpawnItem("RicochetSpark2",0,0,0)
+	PUFF CDEF 2
+	Stop
+    }
+}
+
+ACTOR RicochetSpark
+{
+RenderStyle Add
+Alpha 0.95
+Scale 0.5
++NOTELEPORT
++NOGRAVITY
++NOBLOCKMAP
+States
+{
+Spawn:
+    FX57 ABCDEFGHIJ 1 Bright
+    Stop
+	}
+}
+
+ACTOR RicochetSpark2 : RicochetSpark
+{
+States
+{
+Spawn:
+    FX58 ABCDEFGHIJ 1 Bright
+    Stop
+	}
+}
+
+ACTOR FistPuff : ModdedBulletPuff
+{
+AttackSound "weapons/fistpunch"
+SeeSound "weapons/fistpunch" 
++PUFFONACTORS
+States
+{
+Spawn:
+Melee:
+    TNT1 A 1
+	Stop
+	}
+}
+
+ACTOR FootPuff : FistPuff
+{
+AttackSound "weapons/kickhit"
+SeeSound "weapons/kickhit" 
+}
+
+ACTOR SawScreech : BulletPuff
+{
+DamageType "Extreme"
+AttackSound "Weapons/SawScreech"
+RenderStyle Add
+Alpha 0.8
+Scale 0.4
+States
+{
+Spawn:
+    TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("SawParticleSpawner",0,0,0,0,0,0,0,128)
+	TNT1 A 0 A_Jump(128,"Alt")
+	FX57 ABCDEFGHIJ 1 Bright A_FadeOut(0.08)
+	Stop
+Alt:
+	FX58 ABCDEFGHIJ 1 Bright A_FadeOut(0.08)
+	Stop	
+    }
+}
+
+ACTOR SquishSound : RealGibs replaces RealGibs
+{
+Scale 0.8
+States
+{
+Spawn:
+    TNT1 A 0
+	POL5 A -1 A_PlaySound("gib/squish")
+    Stop
+    }
+}
+
+ACTOR NewBlood : Blood replaces Blood
+{
++CLIENTSIDEONLY
++NOGRAVITY
+States
+{
+Spawn:
+Spray:
+    TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("FleshHit",0,0,0,0,0,0,0,128,0)
+	TNT1 A 0 A_SpawnItemEx("BloodSpray",0,0,0,Random(1,-1),Random(1,-1),Random(1,2),0,129)
+	TNT1 A 0 A_SpawnItemEx("NewFlyingBlood",0,0,0,Random(5,-5),Random(5,-5),Random(3,6),0,129)	
+	TNT1 A 1 A_Jump(128,"ExtraBlood")	
+	Stop
+ExtraBlood:
+	TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("SmallFlyingBlood",0,0,0,Random(5,-5),Random(5,-5),Random(3,6),0,129)
+	Stop
+	}
+}
+
+ACTOR NewBloodSplatter : NewBlood replaces BloodSplatter
+{
+}
+
+ACTOR BloodSpray
+{
+RenderStyle Translucent
+Alpha 0.85
+Scale 0.85
+Gravity 0.4
+Mass 5
++CLIENTSIDEONLY
++NOTELEPORT
++NOBLOCKMAP
++THRUACTORS
+States
+{
+Spawn:
+	BLBD CBA 7
+	Stop
+    }
+}
+
+ACTOR NewFlyingBlood
+{
+Scale 0.1
+Health 1
+Radius 2
+Height 2
++MISSILE
++THRUACTORS
++CLIENTSIDEONLY
++CORPSE
++NOTELEPORT
++NOBLOCKMAP
++DONTSPLASH
++DOOMBOUNCE
+BounceCount 2
+BounceFactor 0.05
+WallBounceFactor 0.05
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBLD AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot",0,0,0,1)
+  Stop
+Toaster:
+  TNT1 A 0
+  Stop
+  }
+}
+
+ACTOR SmallFlyingBlood : NewFlyingBlood
+{
+Scale 0.05
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBLD AAABBBCCCDDD 1 A_SpawnItem("SmallFlyingBloodTrail",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("SmallBloodSpot",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewFlyingBlood2 : NewFlyingBlood
+{
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBLM AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail2",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot2",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewFlyingBlood3 : NewFlyingBlood
+{
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBLB AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail3",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot3",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewFlyingBlood4 : NewFlyingBlood
+{
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBLK AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail4",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot4",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewFlyingBlood5 : NewFlyingBlood
+{
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBBL AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail5",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot5",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewFlyingBlood6 : NewFlyingBlood
+{
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  FBOL AAABBBCCCDDD 1 A_SpawnItem("NewFlyingBloodTrail6",0,0,0,1)
+  Loop
+Crash:
+Death:
+  TNT1 A 0 A_PlaySound("Gibs")
+  TNT1 A 1 A_SpawnItem("NewBloodSpot6",0,0,0,1)
+  Stop
+  }
+}
+
+ACTOR NewBloodSpot
+{
+Scale 0.4
+RenderStyle Translucent
+Alpha 0.8
++CLIENTSIDEONLY
++NOTELEPORT
++NOBLOCKMAP
++MOVEWITHSECTOR
+States
+{
+Spawn:
+    BSPT A 100
+    BSPT A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+	}
+}
+
+ACTOR SmallBloodSpot : NewBloodSpot
+{
+Scale 0.2
+}
+
+ACTOR NewBloodSpot2 : NewBloodSpot
+{
+States
+{
+Spawn:
+    BSPW A 100
+    BSPW A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+	}
+}
+
+ACTOR NewBloodSpot3 : NewBloodSpot
+{
+States
+{
+Spawn:
+    BSPB A 100
+    BSPB A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+    }
+}
+
+ACTOR NewBloodSpot4 : NewBloodSpot
+{
+States
+{
+Spawn:
+    BSPK A 100
+    BSPK A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+    }
+}
+
+ACTOR NewBloodSpot5 : NewBloodSpot
+{
+States
+{
+Spawn:
+    BSBL A 100
+    BSBL A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+    }
+}
+
+ACTOR NewBloodSpot6 : NewBloodSpot
+{
+States
+{
+Spawn:
+    BSOL A 100
+    BSOL A 5 A_FadeOut(0.10)
+    Goto Spawn+1
+    }
+}
+
+ACTOR NewFlyingBloodTrail
+{
+Scale 0.1
+RenderStyle Translucent
+Alpha 0.8
++CLIENTSIDEONLY
++NOTELEPORT
++NOBLOCKMAP
++DONTSPLASH
++LOWGRAVITY
++NOCLIP
+States
+{
+Spawn:
+  FBLD ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR SmallFlyingBloodTrail : NewFlyingBloodTrail
+{
+Scale 0.05
+}
+
+ACTOR NewFlyingBloodTrail2 : NewFlyingBloodTrail
+{
+States
+{
+Spawn:
+  FBLM ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR NewFlyingBloodTrail3 : NewFlyingBloodTrail
+{
+States
+{
+Spawn:
+  FBLB ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR NewFlyingBloodTrail4 : NewFlyingBloodTrail
+{
+States
+{
+Spawn:
+  FBLK ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR NewFlyingBloodTrail5 : NewFlyingBloodTrail
+{
+States
+{
+Spawn:
+  FBBL ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR NewFlyingBloodTrail6 : NewFlyingBloodTrail
+{
+States
+{
+Spawn:
+  FBOL ABCD 2 A_FadeOut(0.18)
+  Loop
+  }
+}
+
+ACTOR RedGibTrail : NewFlyingBloodTrail
+{
++NOGRAVITY
+-LOWGRAVITY
+Scale 0.24
+Alpha 0.66
+States
+{
+Spawn:
+  FBLD ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR PurpleGibTrail : RedGibTrail
+{
+States
+{
+Spawn:
+  FBLM ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR BlackGibTrail : RedGibTrail
+{
+States
+{
+Spawn:
+  FBLB ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR GreenGibTrail : RedGibTrail
+{
+States
+{
+Spawn:
+  FBLK ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR BlueGibTrail : RedGibTrail
+{
+States
+{
+Spawn:
+  FBBL ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR OrangeGibTrail : RedGibTrail
+{
+States
+{
+Spawn:
+  FBOL ABCD 2 A_FadeOut(0.08)
+  Loop
+  }
+}
+
+ACTOR RedBloodCloud
+{
+Radius 1
+Height 1
+Speed 1
+Damage 0
+Renderstyle Translucent
+Alpha 0.75
+Scale 1
+PROJECTILE
++NOTELEPORT
++DONTSPLASH
++FORCEXYBILLBOARD
++CLIENTSIDEONLY
++NOINTERACTION
++NOCLIP
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+RBSP ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+Toaster:
+TNT1 A 0
+Stop
+}
+}
+
+ACTOR PurpleBloodCloud : RedBloodCloud
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+PBSP ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR BlackBloodCloud : RedBloodCloud
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+BBSP ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR GreenBloodCloud : RedBloodCloud
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+GBSP ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR BlueBloodCloud : RedBloodCloud
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+BLBS ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR OrangeBloodCloud : RedBloodCloud
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+ORBS ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR BigRedBloodCloud : RedBloodCloud
+{
+Speed 2
+Scale 1.5
+}
+
+ACTOR BigGreenBloodCloud : GreenBloodCloud
+{
+Speed 2
+Scale 1.5
+}
+
+ACTOR GibbedGenerator 
+{
++CLIENTSIDEONLY
++NOBLOCKMAP
++NOGRAVITY
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR MutantGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("PurpleBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood2",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("MutantBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("MutantBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("PurpleBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood2",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("MutantBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("MutantBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("PurpleBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood2",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("MutantBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("MutantBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("PurpleBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood2",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("MutantBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("MutantBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR BlackGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("BlackBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood3",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlackBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlackBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlackBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood3",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlackBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlackBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("BlackBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood3",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlackBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlackBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlackBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood3",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlackBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlackBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR GreenGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR BlueGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlueBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlueBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlueBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlueBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR OrangeGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("OrangeBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood6",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("OrangeBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("OrangeBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("OrangeBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood6",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("OrangeBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("OrangeBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("OrangeBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood6",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("OrangeBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("OrangeBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("OrangeBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood6",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("OrangeBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("OrangeBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR CacoGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("CacoPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("CacoPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlueBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("CacoPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("CacoPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlueBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("CacoPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("CacoPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BlueBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("BlueBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood5",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("CacoPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("CacoPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BlueBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BlueBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR WatcherGibbedGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("WatcherPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR SoulKeeperGoreGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("SoulKeeperPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR DefilerGoreGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("DefilerPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR PoisonEleGoreGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("GreenBodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("GreenBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood4",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("PoisonElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("GreenBodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("GreenBodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+	}
+}
+
+ACTOR BombGoreGenerator : GibbedGenerator
+{ 
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(128,"Alternate")
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BombElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BombElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BombElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BombElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart3",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart4",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Alternate:
+	TNT1 A 0
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BombElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BombElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 2 A_SpawnItemEx("BodyPart6",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(6,-6),Random(6,-6),Random(4,6))
+	TNT1 A 0 A_SpawnItemEx("BombElePart2",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BombElePart1",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 0 A_SpawnItemEx("BodyPart7",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1 A_SpawnItemEx("BodyPart8",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	Stop
+Toaster:
+    TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR DSPGoreGenerator
+{ 
++CLIENTSIDEONLY
+States 
+{ 
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_SpawnItem("DSPGore")
+	TNT1 AAAA 0 A_CustomMissile("RedBloodCloud", random(25,50), 0, random(0,360), 2, random(0,360))
+	TNT1 AAAA 0 A_SpawnItemEx("BodyPart5",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 AAAAAAAA 0 A_SpawnItemEx("NewFlyingBlood",0,0,Random(25,50),Random(10,-10),Random(10,-10),Random(8,10))
+	TNT1 A 1
+	Stop
+Toaster:
+	TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR DSPGore
+{
+Health 1
+Radius 4
+Height 4
++CLIENTSIDEONLY
++CORPSE
++NOTELEPORT
++MOVEWITHSECTOR
++THRUACTORS
+States
+{
+Spawn:
+SIMP OPQRST 3
+Goto FallingLoop
+FallingLoop:
+SIMP U 1
+Loop
+Crash:
+Death:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("Gore/Splat")
+SIMP U -1
+Stop
+}
+}
+
+ACTOR DSPBloodDrop : DSPGore
+{
++DONTSPLASH
+RenderStyle Translucent
+Alpha 0.8
+Scale 0.3
+States
+{
+Spawn:
+BDRP A 1
+Loop
+Crash:
+Death:
+BDRP BCDEFGH 2
+Stop
+}
+}
+
+ACTOR BodyPart1
+{
+Health 1
+Height 2
+Radius 2
+Scale 0.75
++CLIENTSIDEONLY
++CORPSE
++NOTELEPORT
++MOVEWITHSECTOR
++THRUACTORS
+States
+{
+Spawn:
+GIB1 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+GIB1 E 150
+GIB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+GIB2 A 1 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+GIB2 A 150
+GIB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BodyPart3 : BodyPart1
+{
++MISSILE
++DOOMBOUNCE
++DONTSPLASH
++DROPOFF
+-MOVEWITHSECTOR
+BounceFactor 0.5
+WallBounceFactor 0.3
+BounceCount 4
+SeeSound "gib/bounce"
+States
+{
+Spawn:
+GIB3 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+GIB3 E 150
+GIB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+GIB4 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+GIB4 E 150
+GIB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+GIB5 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+GIB5 E 150
+GIB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+GIB6 A 1 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+GIB6 A 150
+GIB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+GIB7 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+GIB7 E 150
+GIB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+GIB8 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+GIB8 E 150
+GIB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR MutantBodyPart1 : BodyPart1
+{
+States
+{
+Spawn:
+MIB1 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MIB1 E 150
+MIB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR MutantBodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+MIB2 A 1 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MIB2 A 150
+MIB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR MutantBodyPart3 : BodyPart3
+{
+States
+{
+Spawn:
+MIB3 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MIB3 E 150
+MIB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR MutantBodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+MIB4 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MIB4 E 150
+MIB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR MutantBodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+MIB5 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MIB5 E 150
+MIB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR MutantBodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+MIB6 A 1 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MIB6 A 150
+MIB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR MutantBodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+MIB7 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MIB7 E 150
+MIB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR MutantBodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+MIB8 AABBCCDD 2 A_SpawnItemEx("PurpleGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MIB8 E 150
+MIB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlackBodyPart1 : BodyPart1
+{
+States
+{
+Spawn:
+MBB1 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MBB1 E 150
+MBB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlackBodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+MBB2 A 1 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MBB2 A 150
+MBB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlackBodyPart3 : BodyPart3
+{
+States
+{
+Spawn:
+MBB3 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MBB3 E 150
+MBB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlackBodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+MBB4 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MBB4 E 150
+MBB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlackBodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+MBB5 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MBB5 E 150
+MBB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlackBodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+MBB6 A 1 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MBB6 A 150
+MBB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlackBodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+MBB7 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+MBB7 E 150
+MBB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlackBodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+MBB8 AABBCCDD 2 A_SpawnItemEx("BlackGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+MBB8 E 150
+MBB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR GreenBodyPart1 : BodyPart1
+{
+States
+{
+Spawn:
+KIB1 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+KIB1 E 150
+KIB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR GreenBodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+KIB2 A 1 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+KIB2 A 150
+KIB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR GreenBodyPart3 : BodyPart3
+{
+States
+{
+Spawn:
+KIB3 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+KIB3 E 150
+KIB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR GreenBodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+KIB4 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+KIB4 E 150
+KIB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR GreenBodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+KIB5 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+KIB5 E 150
+KIB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR GreenBodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+KIB6 A 1 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+KIB6 A 150
+KIB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR GreenBodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+KIB7 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+KIB7 E 150
+KIB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR GreenBodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+KIB8 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+KIB8 E 150
+KIB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlueBodyPart1 : BodyPart1
+{
+States
+{
+Spawn:
+CIB1 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+CIB1 E 150
+CIB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlueBodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+CIB2 A 1 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+CIB2 A 150
+CIB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlueBodyPart3 : BodyPart3
+{
+States
+{
+Spawn:
+CIB3 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CIB3 E 150
+CIB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlueBodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+CIB4 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CIB4 E 150
+CIB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlueBodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+CIB5 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CIB5 E 150
+CIB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BlueBodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+CIB6 A 1 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+CIB6 A 150
+CIB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlueBodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+CIB7 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+CIB7 E 150
+CIB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR BlueBodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+CIB8 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CIB8 E 150
+CIB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR OrangeBodyPart1 : BodyPart1
+{
+States
+{
+Spawn:
+OIB1 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+OIB1 E 150
+OIB1 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR OrangeBodyPart2 : BodyPart1
+{
+States
+{
+Spawn:
+OIB2 A 1 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+OIB2 A 150
+OIB2 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR OrangeBodyPart3 : BodyPart3
+{
+States
+{
+Spawn:
+OIB3 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+OIB3 E 150
+OIB3 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR OrangeBodyPart4 : BodyPart3
+{
+States
+{
+Spawn:
+OIB4 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+OIB4 E 150
+OIB4 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR OrangeBodyPart5 : BodyPart3
+{
+States
+{
+Spawn:
+OIB5 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+OIB5 E 150
+OIB5 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR OrangeBodyPart6 : BodyPart1
+{
+States
+{
+Spawn:
+OIB6 A 1 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+OIB6 A 150
+OIB6 A 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR OrangeBodyPart7 : BodyPart1
+{
+States
+{
+Spawn:
+OIB7 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Crash:
+TNT1 A 0
+TNT1 A 0 A_PlaySound("gib/bounce")
+OIB7 E 150
+OIB7 E 5 A_FadeOut(0.10)
+Goto Crash+3
+}
+}
+
+ACTOR OrangeBodyPart8 : BodyPart3
+{
+States
+{
+Spawn:
+OIB8 AABBCCDD 2 A_SpawnItemEx("OrangeGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+OIB8 E 150
+OIB8 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR DTFiendArm : BodyPart3
+{
+Scale 1
+Speed 4
++DROPOFF
++MISSILE
+States
+{
+Spawn:
+    DPAA ABCDEFGH 3 A_SpawnItemEx("NewFlyingBlood4", 0, 0, 0, Random(-4,4), Random(-4,4), Random(-4,4), 0, 128)
+    Loop
+Death:
+Crash:
+	DPAA I 150
+	DPAA I 5 A_FadeOut(0.10)
+	Goto Death+1
+	}
+}
+
+ACTOR SoulPart1 : BodyPart3
+{
+SeeSound ""
+States
+{
+Spawn:
+LGI1 ABCDEFGH 4
+Loop
+Death:
+Crash:
+LGI1 E 150
+LGI1 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR SoulPart2 : SoulPart1
+{
+States
+{
+Spawn:
+LGI2 ABCDEFGH 4
+Loop
+Death:
+Crash:
+LGI2 D 150
+LGI2 D 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR SoulPart3 : SoulPart1
+{
+States
+{
+Spawn:
+LGI3 ABCDEFGH 4
+Loop
+Death:
+Crash:
+LGI3 A 150
+LGI3 A 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR CacoPart1 : BodyPart3
+{
+Scale 1
+States
+{
+Spawn:
+CAPT AABBCCDDEEFFGG 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CAPT H 150
+CAPT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR CacoPart2 : CacoPart1
+{
+States
+{
+Spawn:
+CAP2 AABBCCDD 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CAP2 E 150
+CAP2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR CacoPart3 : CacoPart1
+{
+States
+{
+Spawn:
+CAP3 AABBCCDDEE 2 A_SpawnItemEx("BlueGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+CAP3 F 150
+CAP3 F 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR WatcherPart1 : CacoPart1
+{
+States
+{
+Spawn:
+WATT AABBCCDDEEFFGG 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+WATT H 150
+WATT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR WatcherPart2 : WatcherPart1
+{
+States
+{
+Spawn:
+WAT2 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+WAT2 E 150
+WAT2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR WatcherPart3 : WatcherPart1
+{
+States
+{
+Spawn:
+WAT3 AABBCCDDEE 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+WAT3 F 150
+WAT3 F 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR SoulKeeperPart1 : CacoPart1
+{
+States
+{
+Spawn:
+PEPT AABBCCDDEEFFGG 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+PEPT H 150
+PEPT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR SoulKeeperPart2 : WatcherPart1
+{
+States
+{
+Spawn:
+PEP2 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+PEP2 E 150
+PEP2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR DefilerPart1 : CacoPart1
+{
+States
+{
+Spawn:
+DFPT AABBCCDDEEFFGG 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+DFPT H 150
+DFPT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR DefilerPart2 : WatcherPart1
+{
+States
+{
+Spawn:
+DFP2 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+DFP2 E 150
+DFP2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR PoisonElePart1 : CacoPart1
+{
+States
+{
+Spawn:
+POPT AABBCCDDEEFFGG 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+POPT H 150
+POPT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR PoisonElePart2 : WatcherPart1
+{
+States
+{
+Spawn:
+POP2 AABBCCDD 2 A_SpawnItemEx("GreenGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+POP2 E 150
+POP2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BombElePart1 : CacoPart1
+{
+States
+{
+Spawn:
+BOMT AABBCCDDEEFFGG 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+BOMT H 150
+BOMT H 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+ACTOR BombElePart2 : WatcherPart1
+{
+States
+{
+Spawn:
+BOM2 AABBCCDD 2 A_SpawnItemEx("RedGibTrail", 0, 0, 0, Random(-1,1), Random(-1,1), Random(-1,1), 0, 128)
+Loop
+Death:
+Crash:
+BOM2 E 150
+BOM2 E 5 A_FadeOut(0.10)
+Goto Death+1
+}
+}
+
+//============
+// Explosions
+//============
+
+ACTOR Kaboom
+{
+Speed 3
+Damage 0
+Renderstyle Add
+Alpha 0.75
+PROJECTILE
++NOBLOCKMAP
++NOTELEPORT
++DONTSPLASH
++NOGRAVITY
++MISSILE
++FORCEXYBILLBOARD
++CLIENTSIDEONLY
++NOINTERACTION
++NOCLIP
+Scale 1.3
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPO A 1 Bright A_PlaySound("weapons/rocklx")
+FXPO ABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+Toaster:
+TNT1 A 0
+Stop
+}
+}
+
+ACTOR Kaboom2 : Kaboom
+{
+Speed 2
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPO A 1 Bright A_PlaySound("weapons/rocklx")
+FXPO ABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom3 : Kaboom
+{
+Speed 2
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPO AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom4 : Kaboom
+{
+Speed 2
+Scale 0.85
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom5 : Kaboom
+{
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG A 1 Bright A_PlaySound("weapons/clrocketexplode")
+FXPG ABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom6 : Kaboom
+{
+Speed 1
+Scale 0.45
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPB AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom7 : Kaboom6
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom8 : Kaboom6
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPP AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom9 : Kaboom6
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPO AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom10 : Kaboom6
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPR AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom11 : Kaboom
+{
+Speed 2
+Scale 1
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG AABBCDEFGHIJKLM 2 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom12 : Kaboom
+{
+Speed 6
+Scale 1.15
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPR AABBCDEFGHIJKLM 2 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom13 : Kaboom
+{
+Speed 1
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom14 : Kaboom
+{
+Speed 1
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPR AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom15 : Kaboom
+{
+Speed 6
+Scale 1.15
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPG AABBCDEFGHIJKLM 2 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom16 : Kaboom
+{
+Speed 2
+Scale 0.45
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPO AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom17 : Kaboom3
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+TNT1 A 0 Bright A_PlaySound("Weapons/RockLX")
+FXPO AABBCDEFGHIJKLM 1 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR Kaboom18 : Kaboom
+{
+Speed 2
+Scale 1
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FXPR AABBCDEFGHIJKLM 2 Bright A_FadeOut(0.05)
+Stop
+}
+}
+
+ACTOR CardinalFireEx : Kaboom3
+{
+Speed 0
+Scale 0.85
+}
+
+//=======
+// Smoke
+//=======
+
+ACTOR SmokeFX : Kaboom
+{
+Speed 2
+Scale 1.15
+Renderstyle Translucent
+Alpha 0.75
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SMK3 ABCDEFGHIJKLM 5 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR SmokeFX2 : SmokeFX
+{
+Scale 0.85
+}
+
+ACTOR SmokeFX3 : SmokeFX
+{
+Scale 1.65
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SMK3 ABCDEFGHIJKLM 7 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR SmokeFX4 : SmokeFX
+{
+Scale 0.35
+Speed 1
+Renderstyle Add
+Alpha 0.75
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SMK3 ABCDEFGHIJKLM 3 A_FadeOut(0.025)
+Stop
+}
+}
+
+ACTOR SmokeFX5 : SmokeFX2
+{
+Renderstyle Add
+Alpha 0.75
+Scale 0.5
+}
+
+ACTOR SmokeFX6 : SmokeFX
+{
+Scale 0.4
+}
+
+ACTOR DTech10KSteam : SmokeFX 
+{
+Speed 3
+Scale 0.85
+Renderstyle ADD
+Alpha 0.75
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+BSMK ABCDE 2 A_FadeOut(0.2)
+Stop
+}
+}
+
+ACTOR DTech10KShockwave : SmokeFX 
+{
+Speed 0
+Scale 1
+Alpha 0.85
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOK ABCDEFGHIJKLMNOPQR 1 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR DTech10KShockwave2 : SmokeFX 
+{
+Speed 0
+Scale 2.5
+Alpha 0.85
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOK ABCDEFGHIJKLMNOPQR 2 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR DTech10KShockwave3 : DTech10KShockwave 
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOG ABCDEFGHIJKLMNOPQR 1 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR DTech10KShockwave4 : DTech10KShockwave2
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOG ABCDEFGHIJKLMNOPQR 2 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR BFGShockwave : DTech10KShockwave 
+{
+Scale 0.9
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOG ABCDEFGHIJKLMNOPQR 1 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR BFGShockwave2 : DTech10KShockwave 
+{
+Scale 1.1
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOG ABCDEFGHIJKLMNOPQR 2 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR BFGShockwaveRed : BFGShockwave 
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOK ABCDEFGHIJKLMNOPQR 1 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+ACTOR BFGShockwaveRed2 : BFGShockwaveRed
+{
+Scale 1.1
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+SHOK ABCDEFGHIJKLMNOPQR 2 Bright A_FadeOut(0.04)
+Stop
+}
+}
+
+//================
+// Flame Spawners
+//================
+
+ACTOR OrangeFire
+{
++MISSILE
++DONTSPLASH
++CLIENTSIDEONLY
++NOBLOCKMAP
++NOGRAVITY
++NOTELEPORT
++FORCEXYBILLBOARD
++NOINTERACTION
+RenderStyle Add
+Scale 0.2
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FIR1 ABCDEFGHIJKL 2 Bright A_FadeOut
+Stop
+Toaster:
+TNT1 A 0
+Stop
+}
+}
+
+ACTOR BlueFire : OrangeFire
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FIB1 ABCDEFGHIJKL 2 Bright A_FadeOut
+Stop
+}
+}
+
+ACTOR GreenFire : OrangeFire
+{
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+FIG1 ABCDEFGHIJKL 2 Bright A_FadeOut
+Stop
+}
+}
+
+//==============
+// Teleport Fog
+//==============
+
+ACTOR NewTeleportFog : TeleportFog replaces TeleportFog
+{
+Scale 0.75
+Alpha 0.8
+States
+{
+Spawn:
+  TNT1 A 0 
+  TNT1 A 0 A_SpawnItem("TeleportSFXSpawner",0,0,0,0)
+  TFOG ABABC 4 Bright A_FadeOut(0.025)
+  TFOG DEF 6 Bright A_FadeOut(0.025)
+  Stop
+  }
+}
+
+ACTOR TeleportFogLightning
+{
+RenderStyle Add
+Scale 0.16
+Alpha 0.5
++MISSILE
++NOGRAVITY
++NOBLOCKMAP
++NOINTERACTION
++NOTELEPORT
++DONTSPLASH
++CLIENTSIDEONLY
+-SOLID
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(256,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72)
+	GRL1 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	GRL2 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	GRL3 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	GRL4 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+Death:
+	"----" A 1 Bright
+	Stop
+Toaster:
+	TNT1 A 0
+	Stop
+	}
+}
+
+ACTOR TeleportFogSmoke : Kaboom
+{
+Speed 0
+Scale 0.5
+Alpha 0.6
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  TFOG ABABCDEF 3 Bright A_FadeOut(0.025)
+  Stop
+  }
+}
+
+ACTOR TeleportSFXSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+    TNT1 A 0 Bright A_SpawnItemEx("TeleportFogSmoke",0,0,15,Random(1,-1),Random(1,-1),Random(1,-1),0,128,0)		
+	TNT1 A 2 Bright A_SpawnItemEx("TeleportFogLightning",0,0,Random(20,30),0,0,0,0,128,0)
+    TNT1 A 0 Bright A_SpawnItemEx("TeleportFogSmoke",0,0,15,Random(2,-2),Random(2,-2),Random(2,-2),0,128,0)		
+	TNT1 A 3 Bright A_SpawnItemEx("TeleportFogLightning",0,0,Random(20,30),0,0,0,0,128,0) 
+    TNT1 A 0 Bright A_SpawnItemEx("TeleportFogSmoke",0,0,15,Random(1,-1),Random(1,-1),Random(1,-1),0,128,0)
+	TNT1 A 6 Bright A_SpawnItemEx("TeleportFogLightning",0,0,Random(20,30),0,0,0,0,128,0)
+	TNT1 AAAAA 8 Bright A_SpawnItemEx("TeleportFogLightning",0,0,Random(20,30),0,0,0,0,128,0) 	
+    Stop
+    }
+}
+
+//==================
+// Item Respawn Fog
+//==================
+
+ACTOR NewItemFog : ItemFog replaces ItemFog
+{
+RenderStyle Add
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_SpawnItem("ItemSFXSpawner",0,0,0,0)
+  IFOG ABABCDE 4 Bright A_FadeOut(0.025)
+  Stop
+  }
+}
+
+ACTOR ItemFogLightning : TeleportFogLightning
+{
+Scale 0.06
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(256,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72)
+	BLL1 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	BLL2 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	BLL3 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	BLL4 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+Death:
+	"----" A 1 Bright
+	Stop
+	}
+}
+
+ACTOR ItemFogSmoke : Kaboom
+{
+Speed 0
+Scale 0.25
+States
+{
+Spawn:
+  TNT1 A 0
+  TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+  IFOG ABABCDE 3 Bright A_FadeOut(0.025)
+  Stop
+  }
+}
+
+ACTOR ItemSFXSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 Bright A_SpawnItemEx("ItemFogSmoke",0,0,10,Random(1,-1),Random(1,-1),Random(1,-1),0,128,0)
+	TNT1 A 2 Bright A_SpawnItemEx("ItemFogLightning",Random(4,-4),Random(4,-4),Random(10,20),0,0,0,0,128,0)
+	TNT1 A 0 Bright A_SpawnItemEx("ItemFogSmoke",0,0,10,Random(1,-1),Random(1,-1),Random(1,-1),0,128,0)
+	TNT1 A 3 Bright A_SpawnItemEx("ItemFogLightning",Random(4,-4),Random(4,-4),Random(10,20),0,0,0,0,128,0) 
+	TNT1 A 6 Bright A_SpawnItemEx("ItemFogLightning",Random(4,-4),Random(4,-4),Random(10,20),0,0,0,0,128,0) 
+	TNT1 AAAAA 8 Bright A_SpawnItemEx("ItemFogLightning",Random(4,-4),Random(4,-4),Random(10,20),0,0,0,0,128,0) 	
+    Stop
+    }
+}
+
+//==================
+// Other Weapon SFX
+//==================
+
+ACTOR PlasmaLightning : ItemFogLightning
+{
+Scale 0.03
+}
+
+ACTOR PlasmaLightning2 : PlasmaLightning
+{
+Scale 0.06
+}
+
+ACTOR DTechLightning : TeleportFogLightning
+{
+Scale 0.03
+}
+
+ACTOR DTechLightning2 : DTechLightning
+{
+Scale 0.06
+}
+
+ACTOR DTBFGLightningGreen : TeleportFogLightning
+{
+Scale 0.24
+}
+
+ACTOR DTBFGLightningGreen2 : DTBFGLightningGreen
+{
+Scale 0.36
+}
+
+ACTOR DTBFGLightningRed : TeleportFogLightning
+{
+Scale 0.24
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 A 0 A_Jump(256,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72)
+	REL1 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL2 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL3 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL4 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+Death:
+	"----" A 1 Bright
+	Stop
+	}
+}
+
+ACTOR DTBFGLightningRed2 : DTBFGLightningRed
+{
+Scale 0.36
+}
+
+ACTOR DTBFGLightningGreenSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 Bright A_SpawnItemEx("DTBFGLightningGreen2",Random(6,-6),Random(6,-6),Random(6,-6),0,0,0,0,128)
+    Stop
+    }
+}
+
+ACTOR DTBFGLightningRedSpawner : BluePowerLineSpawner
+{
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(random(0,1) == 1, "Toaster")
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 Bright A_SpawnItemEx("DTBFGLightningRed2",Random(6,-6),Random(6,-6),Random(6,-6),0,0,0,0,128)
+    Stop
+    }
+}
+
+ACTOR SentientBrainLightning : DTBFGLightningRed
+{
+Scale 0.52
+States
+{
+Toaster:
+	TNT1 A 0 A_Jump(256,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72)
+	REL1 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL2 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL3 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	REL4 ABCDEFGHIJKLMNOPQR 0 Bright A_Jump(256,"Death")
+	}
+}
+
+ACTOR SentientBrainLightning2 : SentientBrainLightning
+{
+Scale 0.46
+}
+
+//==========
+// Splashes
+//==========
+
+ACTOR LargeWaterSplash : WaterSplashBase
+{
+RenderStyle Translucent
+Alpha 0.75
++MOVEWITHSECTOR
+States
+{
+Spawn:
+	SPSH EGHIJK 3
+    Stop
+    }
+}
+
+ACTOR SmallWaterSplash : LargeWaterSplash
+{
+Scale 0.5
+}
+
+ACTOR LargeBloodSplash : BloodSplashBase
+{
+RenderStyle Translucent
+Alpha 0.9
++MOVEWITHSECTOR
+States
+{
+Spawn:
+	BSPH EFGHIJK 3
+    Stop
+    }
+}
+
+ACTOR SmallBloodSplash : LargeBloodSplash
+{
+Scale 0.5
+}
+
+ACTOR LargeSlimeSplash : SlimeSplash
+{
+RenderStyle Add
+Alpha 0.9
++MOVEWITHSECTOR
+States
+{
+Spawn:
+	SLIM EFGH 5
+    Stop
+    }
+}
+
+ACTOR SmallSlimeSplash : LargeSlimeSplash
+{
+Scale 0.5
+}
+
+ACTOR LargeLavaSplash : LavaSplash
+{
+RenderStyle Add
+Alpha 0.9
++MOVEWITHSECTOR
+States
+{
+Spawn:
+	LVAS ABCDEF 4 Bright
+    Stop
+    }
+}
+
+ACTOR SmallLavaSplash : LargeLavaSplash
+{
+Scale 0.5
+}
+
+ACTOR LargeSludgeSplash : SludgeSplash
+{
+RenderStyle Translucent
+Alpha 0.85
++MOVEWITHSECTOR
+States
+{
+Spawn:
+	SLDG EFGH 5
+    Stop
+    }
+}
+
+ACTOR SmallSludgeSplash : LargeSludgeSplash
+{
+Scale 0.5
+}
+
+//================
+// Explosive Junk
+//================
+
+ACTOR Debris
+{
+Radius 3
+Scale 0.1
++MISSILE
++CLIENTSIDEONLY
++DOOMBOUNCE
++NOTELEPORT
++FORCEXYBILLBOARD
++THRUACTORS
++DROPOFF
+BounceCount 3
+BounceFactor 0.4
+WallBounceFactor 0.3
+States
+{
+Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(304) == 1, "Toaster")
+	SHRD ABCDEFGH 2
+	Loop
+Death:
+	TNT1 A 0
+	TNT1 A 0 A_Jump(128,3,5)
+	SHRD D 50
+	SHRD D 5 A_FadeOut(0.10)
+	Goto Death+3
+	SHRD E 50
+	SHRD E 5 A_FadeOut(0.10)
+	Goto Death+5
+	SHRD H 50
+	SHRD H 5 A_FadeOut(0.10)
+	Goto Death+7
+Toaster:
+	TNT1 A 0
+	Stop
+	}
+}

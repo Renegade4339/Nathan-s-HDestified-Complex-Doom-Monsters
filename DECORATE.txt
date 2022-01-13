@@ -1,0 +1,35 @@
+//=================================
+// Include Seperate DECORATE Lumps
+//=================================
+// Tracers.
+#INCLUDE "Weapons.dec"
+// VFX
+#INCLUDE "SFX.dec"
+
+// Enemies.
+#INCLUDE "Decorate/Monsters/commob_primatives.dec"
+
+// Gunner Zombies.
+#INCLUDE "Decorate/Monsters/Gunners/commob_plasmagunner.dec"
+#INCLUDE "Decorate/Monsters/Gunners/commob_lancegunner.dec"
+#INCLUDE "Decorate/Monsters/Gunners/commob_demontechgunner.dec"
+
+// Commander Zombies.
+#INCLUDE "Decorate/Monsters/Commanders/commob_rocketcommander.dec"
+#INCLUDE "Decorate/Monsters/Commanders/commob_quadcommander.dec"
+
+// Sergeant Zombies.
+#INCLUDE "Decorate/Monsters/Sergeants/commob_supershotgunsergeant.dec"
+#INCLUDE "Decorate/Monsters/Sergeants/commob_shotgunsergeant.dec"
+#INCLUDE "Decorate/Monsters/Sergeants/commob_assaultsergeant.dec"
+
+// Archvile Variants.
+#INCLUDE "Decorate/Monsters/Viles/commob_diabolist.dec"
+
+#INCLUDE "Spawners.dec"
+
+
+#INCLUDE "Monsters.dec"
+#INCLUDE "Pickups.dec"
+#INCLUDE "Decor.dec"
+

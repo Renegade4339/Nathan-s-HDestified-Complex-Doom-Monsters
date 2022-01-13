@@ -1,0 +1,256 @@
+================================================================================
+								 * Credits *
+================================================================================
+
+	 Names in brackets are the names of the things in this mod, most of 
+	  them have been recoloured to keep with the theme I was going for.
+
+	  * A lot of the original, unmodified resources can be found at. *
+	 
+						   http://realm667.com
+				http://forum.zdoom.org/viewtopic.php?t=15080
+			 http://zandronum.com/forum/showthread.php?tid=2700
+
+================================================================================
+
+=============
+Espi & Ebola: Afrit sprites.
+=============
+
+===============
+Xaser & Quasar: Arachnophyte (Cerebral Sentient) sprites, I modified these by
+				adding the dual chainguns and BFG cannon.
+===============
+
+==========
+Scalliano: Assault Shotgun zombie and Haste Sphere sprites.
+==========
+
+==========
+Spectator: Beam Revenant (Cadaver) sprites.
+==========
+
+=========================
+ItsNatureToDie & Neoworm: BFG Commando zombie sprites.
+=========================
+
+====================
+Eriance & Maelstrom: Pyro Demon (Hell Duke) sprites.
+====================
+
+======
+Vader: Bruiser Demon sprites.
+======
+
+========================
+Scalliano & Mattbratt11: Stalker (Terror) Soul sprites.
+========================
+
+================
+Captain Toenail: Chaingun Spider (Spider Minimind) sprites.
+================
+
+=======================================
+Jimmy, zrrion the insect, Espi & Ebola: Dark Cardinal sprites.
+=======================================
+
+============
+MagicWazard: Phantasm (Poison) Soul sprites.
+============
+
+===============================================
+Tormentor667, Captain Toenail & Ghastly Dragon: Plasma zombie sprites.
+===============================================
+
+================================
+Ghastly_dragon, Xim & Logan MTM: Quad Shotgun zombieman sprites.
+================================
+
+=================
+Xim & Chain Mail: Rocket Zombieman sprites.
+=================
+
+=================================
+Captain Toenail & Ghastly_dragon: Beam (Demon Tech) zombieman sprites.
+=================================
+
+======
+Enjay: Weakener (Watcher) and Cacomental sprites.
+======
+
+========
+Lucario: Armor (Large Armor Bonus) Sphere and Life Sphere sprites.
+========
+
+============
+MagicWazard: Vitality Serum (Pure Rage) sprites.
+============
+
+=========
+Dreadopp: Energy Kit (Armor Booster) sprites.
+=========
+
+=========
+Infirnex: Armor Shard sprites.
+=========
+
+===========
+BloodyAcid: Stim Bonus (Health Booster) sprites.
+===========
+
+===========
+SGT.MarkIV:	Cyberdemon stomping sprites.
+			Lost Soul & LS particle/piece sprites.
+===========
+
+=======
+Virtue: Cyber (Noble) Baron sprite set.
+=======
+
+========
+Faerlyn: For allowing me to use the Hard-Doom boss type monster spawners.
+========
+
+===========
+Perkristan: High quality vanilla sounds.
+===========
+
+===============
+Beautiful Doom: Switch sounds, definitions and the smooth map decoration sprites.
+===============
+
+==============
+Zero Invasion: Flaming skull Revenant sprites.
+==============
+
+=======
+	    Assault Rifle V2 base sprites, I made some extra frames and doomified the
+Mike12: muzzzle flash.
+		Demon Tech rifle sprites.
+=======
+
+========
+XWeapon: Shell box sprites.
+========
+
+=====
+Bane: Quad Barrel Shotgun idle sprites which I modified.
+=====
+
+======
+Jimmy: The big and small fonts.
+======
+
+========
+		 Rocket Launcher, BFG, Behemoth, Inferno Caco (Inferno Elemental),
+		 Hellforge(?) spider (Fusionite), Minigun, Annihilator, Archon Of Hell,
+		 Inferno (Poison Elemental), Cybruiser, Demolisher Spider, Devil Imp, Summon
+Eriance: (Armageddon) Sphere, Diabolist, Hades Elemental (Helemental) Death Incarnate
+		 (Famine) and Hellion sprites. There may be more of his sprite work inside
+		 but I am really not sure. Quite a few of these sprite sets have been
+		 modified by me but the majority of the credit goes to him.
+========
+
+==============
+ForrestMark  
+TerminusEst13: Effects toggling ACS from Marks complex toaster addon.
+ijon
+==============
+
+=====
+N30N: Baby Demolisher sprites.
+=====
+
+================
+N30N & tomicapo: Baby Sentient sprites.
+================
+
+====
+Gez: Bull Fiend sprites.
+====
+
+====
+IMX: Mech Fiend sprites.
+====
+
+========
+David G: Super Shotgun zombie and Dark Devil (Phase Imp) sprites.
+		 Baron Of Hell clapping attack sprites.
+========
+
+============
+Marty Kirra: Chaingun zombie sprites.
+============
+
+========
+Agaures: Strong Health & Armor Bonus sprites.
+========
+
+====================
+Zandronum Community: Lots of suggestions/ideas and playing the mod in general.
+====================
+
+=============
+Team Raycast: Sounds used for the Nazis.
+=============
+
+==========
+Sig Floyd: Some sounds from his Brutal DooM: SE mod.
+==========
+
+=====
+Nash: Giblet sprites & BFG scorch sprites.
+=====
+
+=======
+[Zheg]: Green, blue and red armor sprites that he sent me, I modified the red 
+	    armor and made them all compatable with the Doom palette.
+=======
+
+=======
+Synert: The original shared keys wad.
+=======
+
+=========
+Skyrilla: Female marine double handed pistol player skin which Zheg modified
+		  onto the male version.
+=========
+
+==============
+			   Pinky, Caco, Revenant (I modified these) and Arch-Vile (modified 
+osjclatchford: these also) gibbage sprites.
+			   Railgun sprites which were modified by me.
+			   Caco giblet sprites.
+==============
+
+=======================
+Mike12 & osjclatchford: Pistol sprites which were modified by me.
+=======================
+
+========
+		 Expressive vanilla HUD mug sheet, I touched and cleaned these up a bit
+Brian_D: as a few of them were dodgy with the Doom palette and had messy pixels.
+		 The godmode faces were done/edited by me.
+========
+
+=================
+Ghastly_dragon 
+Xim
+Boingo_The_Clown: For their spritework on the player weapon selection skins.
+Captain Toenail
+Anthony Cole
+Toke
+=================
+
+============================================================================
+The King of Hate himself Darksyde Phil for his mugshot and comical rageisms.
+============================================================================
+
+===================
+					id Software, Slade, XWE, MSPaint, Photoshop, GIMP, ZDoom
+Additional Credits:	Wiki/Forum, Realm667, Lucas Arts, 3D Realms and anyone else
+					who I've forgotten or do not know.					   
+===================
+
+If you see or hear something in here that is yours and your name is not listed, 
+give me a shout and I will add you.

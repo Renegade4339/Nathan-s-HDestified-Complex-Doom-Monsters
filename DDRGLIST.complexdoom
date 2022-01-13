@@ -1,0 +1,13 @@
+%supress_warn_class_not_exists
+
+# Compat for DeusDoom, which has a very handly file format for sorting conflicts.
+# Actors (mostly for melee attacks that are not recognized as hitscan):
+
+# Babuins (aka pinky demons)
+#Babuin damageIsBallistic_Source;
+
+
+# Plasma Projectiles
+BasePlasmaBall !damageIsBallistic_Inflictor damageIsEnergy_Inflictor;
+ZombiePlasmaBall !damageIsBallistic_Inflictor damageIsEnergy_Inflictor;
+ZDemonTechProjectile !damageIsBallistic_Inflictor damageIsEnergy_Inflictor;

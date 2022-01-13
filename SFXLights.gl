@@ -1,0 +1,64 @@
+//==============
+// Bullet Puffs
+//==============
+
+FLICKERLIGHT PuffLight
+{
+Color 0.8 0.6 0
+OffSet 0 0 0
+Size 6
+SecondarySize 8
+Chance 0.3
+}
+
+OBJECT ModdedBulletPuff
+{
+Frame PUFFA { Light PuffLight }
+Frame PUFFB { Light PuffLight }
+}
+
+OBJECT RicochetSpark
+{
+Frame FX57 { Light PuffLight }
+}
+
+OBJECT RicochetSpark2
+{
+Frame FX58 { Light PuffLight }
+}
+
+OBJECT SawScreech
+{
+Frame PUFFA { Light PuffLight }
+Frame PUFFB { Light PuffLight }
+}
+
+//=====================
+// Teleport / Item Fog
+//=====================
+
+FLICKERLIGHT TeleFog1
+{
+Color 0 1 0
+Size 38
+SecondarySize 42
+Chance 0.2
+}
+
+OBJECT NewTeleportFog
+{
+Frame TFOG { Light TeleFog1 }
+}
+
+FLICKERLIGHT ItemFog1
+{
+Color 0.1 0.5 1
+Size 28
+SecondarySize 32
+Chance 0.2
+}
+
+OBJECT NewItemFog
+{
+Frame IFOG { Light ItemFog1 }
+}

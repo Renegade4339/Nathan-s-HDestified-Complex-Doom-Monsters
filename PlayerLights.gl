@@ -1,0 +1,366 @@
+//===============
+// Player Lights
+//===============
+
+OBJECT ComplexDooMPlayer
+{
+Frame PLAYF { Light ZOMBIEATK }
+}
+
+//====================
+// Player Projectiles
+//====================
+
+FLICKERLIGHT Missile1
+{
+Color 1 0.7 0
+Size 36
+SecondarySize 44
+Chance 0.2
+}
+
+POINTLIGHT MissileExplode1
+{
+Color 1 0.6 0
+OffSet 0 0 0
+Size 42
+}
+
+POINTLIGHT MissileExplode2
+{
+Color 1 0.6 0
+OffSet 0 0 0
+Size 46
+}
+
+POINTLIGHT MissileExplode3
+{
+Color 1 0.4 0
+OffSet 0 0 0
+Size 52
+}
+
+OBJECT NewRocket
+{
+Frame MIS2A { Light Missile1 }
+}
+
+OBJECT RocketEx
+{
+Frame MISLB { Light MissileExplode1 }
+Frame MISLC { Light MissileExplode2 }
+Frame MISLD { Light MissileExplode3 }
+}
+
+FLICKERLIGHT PBall1
+{
+Color 0 0 0.8
+Size 40
+SecondarySize 46
+Chance 0.2
+}
+
+POINTLIGHT PBallExplode1
+{
+Color 0 0 0.8
+OffSet 0 0 0
+Size 54
+}
+
+POINTLIGHT PBallExplode2
+{
+Color 0 0 0.8
+OffSet 0 0 0
+Size 50
+}
+
+POINTLIGHT PBallExplode3
+{
+Color 0 0 0.8
+OffSet 0 0 0
+Size 46
+}
+
+POINTLIGHT PBallExplode4
+{
+Color 0 0 0.8
+OffSet 0 0 0
+Size 38
+}
+
+POINTLIGHT PBallExplode5
+{
+Color 0 0 0.8
+OffSet 0 0 0
+Size 30
+}
+
+OBJECT NewPlasmaBall
+{
+Frame PLST { Light PBall1 }
+}
+
+OBJECT PlasmaEx
+{
+Frame PLD2A { Light PBallExplode1 }
+Frame PLD2B { Light PBallExplode2 }
+Frame PLD2C { Light PBallExplode3 }
+Frame PLD2D { Light PBallExplode4 }
+Frame PLD2E { Light PBallExplode5 }
+}
+
+FLICKERLIGHT RailFlare1
+{
+Color 0 0.7 0.8
+Size 40
+SecondarySize 48
+Chance 0.2
+}
+
+OBJECT RailImpactFlare
+{
+Frame LENBA { Light RailFlare1 }
+}
+
+FLICKERLIGHT BFG9500Ball1
+{
+Color 0 0.8 0
+Size 46
+SecondarySize 62
+Chance 0.2
+}
+
+POINTLIGHT BFG9500BallExplode1
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 72
+}
+
+POINTLIGHT BFG9500BallExplode2
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 80
+}
+
+POINTLIGHT BFG9500BallExplode3
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 90
+}
+
+POINTLIGHT BFG9500BallExplode4
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 70
+}
+
+POINTLIGHT BFG9500BallExplode5
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 54
+}
+
+POINTLIGHT BFG9500BallExplode6
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 32
+}
+
+OBJECT BFG9500Ball
+{
+Frame BFS3 { Light BFG9500Ball1 }
+Frame BFE3A { Light BFG9500BallExplode1 }
+Frame BFE3B { Light BFG9500BallExplode2 }
+Frame BFE3C { Light BFG9500BallExplode3 }
+Frame BFE3D { Light BFG9500BallExplode4 }
+Frame BFE3E { Light BFG9500BallExplode5 }
+Frame BFE3F { Light BFG9500BallExplode6 }
+}
+
+POINTLIGHT BFBallExplode1
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 32
+}
+
+POINTLIGHT BFBallExplode2
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 34
+}
+
+POINTLIGHT BFBallExplode3
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 36
+}
+
+POINTLIGHT BFBallExplode4
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 32
+}
+
+POINTLIGHT BFBallExplode5
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 26
+}
+
+OBJECT CustomSpray
+{
+Frame BFE2A { Light BFBallExplode1 }
+Frame BFE2B { Light BFBallExplode2 }
+Frame BFE2C { Light BFBallExplode3 }
+Frame BFE2D { Light BFBallExplode4 }
+}
+
+FLICKERLIGHT BFG15KBall1
+{
+Color 0 0.8 0
+Size 38
+SecondarySize 62
+Chance 0.2
+}
+
+POINTLIGHT BFG15KBallExplode1
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 62
+}
+
+POINTLIGHT BFG15KBallExplode2
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 70
+}
+
+POINTLIGHT BFG15KBallExplode3
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 80
+}
+
+POINTLIGHT BFG15KBallExplode4
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 60
+}
+
+POINTLIGHT BFG15KBallExplode5
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 40
+}
+
+POINTLIGHT BFG15KBallExplode6
+{
+Color 0 0.8 0
+OffSet 0 0 0
+Size 26
+}
+
+OBJECT 10KProjectile
+{
+Frame TRA2 { Light BFG9500Ball1 }
+}
+
+OBJECT Player10KEx
+{
+Frame BFE1A { Light BFG15KBallExplode1 }
+Frame BFE1B { Light BFG15KBallExplode2 }
+Frame BFE1C { Light BFG15KBallExplode3 }
+Frame BFE1D { Light BFG15KBallExplode4 }
+Frame BFE1E { Light BFG15KBallExplode5 }
+Frame BFE1F { Light BFG15KBallExplode6 }
+}
+
+OBJECT BFG15KBall
+{
+Frame BFS1 { Light BFG15KBall1 }
+Frame BFE1A { Light BFG15KBallExplode1 }
+Frame BFE1B { Light BFG15KBallExplode2 }
+Frame BFE1C { Light BFG15KBallExplode3 }
+Frame BFE1D { Light BFG15KBallExplode4 }
+Frame BFE1E { Light BFG15KBallExplode5 }
+Frame BFE1F { Light BFG15KBallExplode6 }
+}
+
+//=====================
+// Extra Weapon Lights
+//=====================
+
+POINTLIGHT MineLight1
+{
+Color 0.8 0 0
+OffSet 0 0 0
+Size 14
+}
+
+OBJECT ThrownMine
+{
+Frame LMINB	{ Light MineLight1 }
+}
+
+OBJECT LiveMine
+{
+Frame LMINB	{ Light MineLight1 }
+}
+
+
+FLICKERLIGHT DTechProj1
+{
+Color 0 0.8 0
+Size 24
+SecondarySize 28
+Chance 0.2
+}
+
+FLICKERLIGHT DTechProj2
+{
+Color 0 0.8 0
+Size 30
+SecondarySize 36
+Chance 0.2
+}
+
+OBJECT DemonTechProjectile
+{
+Frame DTPR { Light DTechProj1 }
+}
+
+OBJECT DemonTechEx
+{
+Frame FRPG { Light DTechProj2 }
+}
+
+OBJECT DTBFG10KBall
+{
+Frame CGS1 { Light BFG9500Ball1 }
+}
+
+OBJECT PlayerDTBFGEx
+{
+Frame CGE1A { Light BFG9500BallExplode1 }
+Frame CGE1B { Light BFG9500BallExplode2 }
+Frame CGE1C { Light BFG9500BallExplode3 }
+Frame CGE1D { Light BFG9500BallExplode4 }
+Frame CGE1E { Light BFG9500BallExplode5 }
+Frame CGE1F { Light BFG9500BallExplode6 }
+}
